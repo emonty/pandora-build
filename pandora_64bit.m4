@@ -29,12 +29,13 @@ AC_DEFUN([PANDORA_64BIT],[
          fi
          CPPFLAGS="-m64 ${CPPFLAGS}"
          LDFLAGS="-m64 ${LDFLAGS}"
+         DTRACEFLAGS="${DTRACEFLAGS} -m64"
          if test "$target_cpu" = "sparc" -a "x$SUNCC" = "xyes"
          then
             AM_CFLAGS="-xmemalign=8s ${AM_CFLAGS}"
             AM_CXXFLAGS="-xmemalign=8s ${AM_CXXFLAGS}"
          fi
-       ])
+       ],[DTRACEFLAGS="${DTRACEFLAGS} -m32"])
 ])
 dnl ---------------------------------------------------------------------------
 dnl End Macro: PANDORA_64BIT
