@@ -3,23 +3,26 @@ dnl   less-warnings turn on a limited set of warnings
 dnl   warnings-always-on always set warnings=error regardless of tarball/vc
  
 AC_DEFUN([PANDORA_WARNINGS],[
-  PW_FULL_WARNINGS=yes
-  PW_VC_WARN_OFF=yes
-  for arg in $@ ; do
-    case "$arg" in
-      less-warnings)
-        PW_FULL_WARNINGS=no
-        ;;
-      warnings-always-on)
-        PW_VC_WARN_OFF=no
-        ;;
-    esac
-  done
+  m4_define([PW_LESS_WARNINGS],[no])
+  m4_define([PW_WARN_ALWAYS_ON],[no])
+  m4_foreach_w([pw_arg],$@,[
+    m4_case(pw_arg,
+      [less-warnings],[
+        m4_undefine([PW_LESS_WARNINGS])
+        m4_define([PW_LESS_WARNINGS],[yes])
+      ],
+      [warnings-always-on],[
+        m4_undefine([PW_WARN_ALWAYS_ON])
+        m4_define([PW_WARN_ALWAYS_ON],[yes])
+    ]) 
+  ])
 
   AC_REQUIRE([PANDORA_BUILDING_FROM_VC])
-  AS_IF([test "${PW_VC_WARN_OFF}" = "no" -o "$ac_cv_building_from_vc" = "yes"],
+  m4_if(PW_WARN_ALWAYS_ON, [yes],
     [ac_cv_warnings_as_errors=yes],
-    [ac_cv_warnings_as_errors=no])
+    AS_IF(["$ac_cv_building_from_vc" = "yes"],
+          [ac_cv_warnings_as_errors=yes],
+          [ac_cv_warnings_as_errors=no]))
 
   AC_ARG_ENABLE([profiling],
       [AS_HELP_STRING([--enable-profiling],
@@ -110,7 +113,7 @@ uint16_t x= htons(80);
     NO_STRICT_ALIASING="-fno-strict-aliasing -Wno-strict-aliasing"
     NO_SHADOW="-Wno-shadow"
 
-    AS_IF([test "${PW_FULL_WARNINGS}" = "yes"],[
+    m4_if(PW_LESS_WARNINGS,[no],[
       BASE_WARNINGS_FULL="-Wformat=2 ${W_CONVERSION} -Wstrict-aliasing"
       CC_WARNINGS_FULL="-Wswitch-default -Wswitch-enum"
       CXX_WARNINGS_FULL="-Weffc++ -Wold-style-cast"
@@ -207,7 +210,7 @@ template <> void C<int>::foo();
       [W_PASTE_RESULT=",E_PASTE_RESULT_NOT_TOKEN"])
 
 
-    AS_IF([test "${PW_FULL_WARNINGS}" = "yes"],[
+    m4_if(PW_LESS_WARNINGS, [no],[
       CC_WARNINGS_FULL="-erroff=E_INTEGER_OVERFLOW_DETECTED${W_PASTE_RESULT}"
     ],[
       CC_WARNINGS_FULL="-erroff=E_ATTRIBUTE_NOT_VAR"
