@@ -139,7 +139,7 @@ uint16_t x= htons(80);
       AC_LANG_POP()
     ])
     AS_IF([test "$ac_cv_safe_to_use_Wmissing_declarations_" = "yes"],
-          [CXX_WARNINGS="${CC_WARNINGS} -Wmissing-declarations"])
+          [CXX_WARNINGS="${CXX_WARNINGS} -Wmissing-declarations"])
 
     AC_CACHE_CHECK([whether it is safe to use -Wlogical-op],
       [ac_cv_safe_to_use_Wlogical_op_],
