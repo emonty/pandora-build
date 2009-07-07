@@ -118,14 +118,33 @@ uint16_t x= htons(80);
       BASE_WARNINGS_FULL="-Wformat ${NO_STRICT_ALIASING}"
     ])
 
-    BASE_WARNINGS="-pedantic -Wall -Wextra ${W_FAIL} -Wundef -Wshadow -Wmissing-declarations -Wstrict-aliasing ${F_DIAGNOSTICS_SHOW_OPTION} ${CFLAG_VISIBILITY} ${BASE_WARNINGS_FULL}"
-    CC_WARNINGS="${BASE_WARNINGS} -Wstrict-prototypes -Wmissing-prototypes -Wredundant-decls ${CC_WARNINGS_FULL} -Wcast-align"
+    BASE_WARNINGS="${W_FAIL} -pedantic -Wall -Wextra -Wundef -Wshadow -Wstrict-aliasing ${F_DIAGNOSTICS_SHOW_OPTION} ${CFLAG_VISIBILITY} ${BASE_WARNINGS_FULL}"
+    CC_WARNINGS="${BASE_WARNINGS} -Wstrict-prototypes -Wmissing-prototypes -Wredundant-decls -Wmissing-declarations -Wcast-align ${CC_WARNINGS_FULL}"
     CXX_WARNINGS="${BASE_WARNINGS} -Woverloaded-virtual -Wnon-virtual-dtor -Wctor-dtor-privacy -Wno-long-long ${CXX_WARNINGS_FULL}"
+
+    AC_CACHE_CHECK([whether it is safe to use -Wmissing-declarations from C++],
+      [ac_cv_safe_to_use_Wmissing_declarations_],
+      [AC_LANG_PUSH(C++)
+       save_CXXFLAGS="$CXXFLAGS"
+       CXXFLAGS="-Werror -pedantic -Wmissing-declarations ${AM_CXXFLAGS}"
+       AC_COMPILE_IFELSE([
+         AC_LANG_PROGRAM(
+         [[
+#include <stdio.h>
+         ]], [[]])
+      ],
+      [ac_cv_safe_to_use_Wmissing_declarations_=yes],
+      [ac_cv_safe_to_use_Wmissing_declarations_=no])
+      CXXFLAGS="$save_CXXFLAGS"
+      AC_LANG_POP()
+    ])
+    AS_IF([test "$ac_cv_safe_to_use_Wmissing_declarations_" = "yes"],
+          [CXX_WARNINGS="${CC_WARNINGS} -Wmissing-declarations"])
 
     AC_CACHE_CHECK([whether it is safe to use -Wlogical-op],
       [ac_cv_safe_to_use_Wlogical_op_],
       [save_CFLAGS="$CFLAGS"
-       CFLAGS="-Wlogical-op -Werror -pedantic ${AM_CFLAGS}"
+       CFLAGS="${W_FAIL} -pedantic -Wlogical-op ${AM_CFLAGS}"
        AC_COMPILE_IFELSE([
          AC_LANG_PROGRAM(
          [[
@@ -142,7 +161,7 @@ uint16_t x= htons(80);
       [ac_cv_safe_to_use_Wredundant_decls_],
       [AC_LANG_PUSH(C++)
        save_CXXFLAGS="${CXXFLAGS}"
-       CXXFLAGS="-Wredundant-decls ${W_FAIL} -pedantic -Wredundant-decls"
+       CXXFLAGS="${W_FAIL} -pedantic -Wredundant-decls ${AM_CXXFLAGS}"
        AC_COMPILE_IFELSE(
          [AC_LANG_PROGRAM([
 template <typename E> struct C { void foo(); };
