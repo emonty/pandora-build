@@ -108,16 +108,18 @@ uint16_t x= htons(80);
     ])
 
     NO_STRICT_ALIASING="-fno-strict-aliasing -Wno-strict-aliasing"
+    NO_SHADOW="-Wno-shadow"
 
     AS_IF([test "${PW_FULL_WARNINGS}" = "yes"],[
-      BASE_WARNINGS_FULL="${W_CONVERSION} -Wstrict-aliasing"
+      BASE_WARNINGS_FULL="-Wformat=2 ${W_CONVERSION} -Wstrict-aliasing"
+      CC_WARNINGS_FULL="-Wswitch-default -Wswitch-enum"
       CXX_WARNINGS_FULL="-Weffc++ -Wold-style-cast"
     ],[
-      BASE_WARNINGS_FULL="${NO_STRICT_ALIASING}"
+      BASE_WARNINGS_FULL="-Wformat ${NO_STRICT_ALIASING}"
     ])
 
-    BASE_WARNINGS="-pedantic -Wall -Wextra ${W_FAIL} -Wundef -Wshadow -Wmissing-declarations -Wstrict-aliasing -Wformat=2 ${F_DIAGNOSTICS_SHOW_OPTION} ${CFLAG_VISIBILITY} ${BASE_WARNINGS_FULL}"
-    CC_WARNINGS="${BASE_WARNINGS} -Wstrict-prototypes -Wmissing-prototypes -Wredundant-decls -Wswitch-default -Wswitch-enum -Wcast-align"
+    BASE_WARNINGS="-pedantic -Wall -Wextra ${W_FAIL} -Wundef -Wshadow -Wmissing-declarations -Wstrict-aliasing ${F_DIAGNOSTICS_SHOW_OPTION} ${CFLAG_VISIBILITY} ${BASE_WARNINGS_FULL}"
+    CC_WARNINGS="${BASE_WARNINGS} -Wstrict-prototypes -Wmissing-prototypes -Wredundant-decls ${CC_WARNINGS_FULL} -Wcast-align"
     CXX_WARNINGS="${BASE_WARNINGS} -Woverloaded-virtual -Wnon-virtual-dtor -Wctor-dtor-privacy -Wno-long-long ${CXX_WARNINGS_FULL}"
 
     AC_CACHE_CHECK([whether it is safe to use -Wlogical-op],
@@ -203,6 +205,7 @@ template <> void C<int>::foo();
   AC_SUBST(NO_CONVERSION)
   AC_SUBST(NO_REDUNDANT_DECLS)
   AC_SUBST(NO_UNREACHED)
+  AC_SUBST(NO_SHADOW)
   AC_SUBST(NO_STRICT_ALIASING)
   AC_SUBST(PROTOSKIP_WARNINGS)
 
