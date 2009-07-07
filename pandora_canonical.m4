@@ -1,5 +1,12 @@
-dnl The standard setup for how we build Pandora projects
+dnl  Copyright (C) 2009 Sun Microsystems
+dnl This file is free software; Sun Microsystems
+dnl gives unlimited permission to copy and/or distribute it,
+dnl with or without modifications, as long as this notice is preserved.
 
+dnl Which version of the canonical setup we're using
+AC_DEFUN([PANDORA_CANONICAL_VERSION],[1])
+
+dnl The standard setup for how we build Pandora projects
 AC_DEFUN([PANDORA_CANONICAL_TARGET],[
   m4_define([PCT_ALL_ARGS],[$@])
   m4_define([PCT_USE_GNULIB],[no])

@@ -1,3 +1,8 @@
+dnl  Copyright (C) 2009 Sun Microsystems
+dnl This file is free software; Sun Microsystems
+dnl gives unlimited permission to copy and/or distribute it,
+dnl with or without modifications, as long as this notice is preserved.
+
 dnl If the user is on a Mac and didn't ask for a specific compiler
 dnl You're gonna get 4.2.
 AC_DEFUN([PANDORA_MAC_GCC42],

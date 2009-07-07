@@ -1,3 +1,8 @@
+dnl  Copyright (C) 2009 Sun Microsystems
+dnl This file is free software; Sun Microsystems
+dnl gives unlimited permission to copy and/or distribute it,
+dnl with or without modifications, as long as this notice is preserved.
+
 dnl AC_PANDORA_WARNINGS([less-warnings|warnings-always-on])
 dnl   less-warnings turn on a limited set of warnings
 dnl   warnings-always-on always set warnings=error regardless of tarball/vc
@@ -230,6 +235,5 @@ template <> void C<int>::foo();
   AC_SUBST(NO_SHADOW)
   AC_SUBST(NO_STRICT_ALIASING)
   AC_SUBST(PROTOSKIP_WARNINGS)
-
 
 ])
