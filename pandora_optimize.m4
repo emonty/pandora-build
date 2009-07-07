@@ -2,6 +2,19 @@ AC_DEFUN([PANDORA_OPTIMIZE],[
   dnl Build optimized or debug version ?
   dnl First check for gcc and g++
   AS_IF([test "$GCC" = "yes"],[
+
+    AC_DEFINE([_GNU_SOURCE],[1],[Fix problem with S_ISLNK() on Linux])
+
+    dnl The following is required for portable results of floating point 
+    dnl calculations on PowerPC. The same must also be done for IA-64, but 
+    dnl this options is missing in the IA-64 gcc backend.
+    case "$target_cpu" in
+      *ppc* | *powerpc*)
+        AM_CFLAGS="-mno-fused-madd ${AM_CFLAGS}"
+        AM_CXXFLAGS="-mno-fused-madd ${AM_CXXFLAGS}"
+      ;;
+    esac
+
     dnl Once we can use a modern autoconf, we can replace the std=gnu99 here
     dnl with using AC_CC_STD_C99 above
     CC="${CC} -std=gnu99"
@@ -23,7 +36,8 @@ AC_DEFUN([PANDORA_OPTIMIZE],[
     AM_CFLAGS="-g -mt ${AM_CFLAGS}"
     AM_CXXFLAGS="-g -mt -compat=5 -library=stlport4 -template=no%extdef ${AM_CXXFLAGS}"
 
-    OPTIMIZE_FLAGS="-xO4 -xlibmil -xdepend -xbuiltin"
+    dnl TODO: Make a test for -xO4 usability here
+    OPTIMIZE_FLAGS="-xO3 -xlibmil -xdepend -xbuiltin"
     OPTIMIZE_CFLAGS="${OPTIMIZE_FLAGS} -Xa -xstrconst"
     OPTIMIZE_CXXFLAGS="${OPTIMIZE_FLAGS}"
   ])

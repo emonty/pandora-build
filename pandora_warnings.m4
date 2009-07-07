@@ -1,15 +1,23 @@
-dnl AC_PANDORA_WARNINGS([FULL],[VC_WARNING_OFF])
-dnl   FULL whether to turn on the full or the limited set of warnings.
-dnl        defaults to yes
-dnl   VC_WARNING_OFF whether to disable warnings=error for tarball builds
-dnl                  defaults to yes
+dnl AC_PANDORA_WARNINGS([less-warnings|warnings-always-on])
+dnl   less-warnings turn on a limited set of warnings
+dnl   warnings-always-on always set warnings=error regardless of tarball/vc
  
 AC_DEFUN([PANDORA_WARNINGS],[
-  m4_define([_PANDORA_WARNINGS_FULL], [m4_if($1, no, no, yes)])
-  m4_define([_PANDORA_VC_WARNING_OFF], [m4_if($2, no, no, yes)])
+  PW_FULL_WARNINGS=yes
+  PW_VC_WARN_OFF=yes
+  for arg in $@ ; do
+    case "$arg" in
+      less-warnings)
+        PW_FULL_WARNINGS=no
+        ;;
+      warnings-always-on)
+        PW_VC_WARN_OFF=no
+        ;;
+    esac
+  done
 
   AC_REQUIRE([PANDORA_BUILDING_FROM_VC])
-  AS_IF([test _PANDORA_VC_WARNING_OFF = "no" -o "$ac_cv_building_from_vc" = "yes"],
+  AS_IF([test "${PW_VC_WARN_OFF}" = "no" -o "$ac_cv_building_from_vc" = "yes"],
     [ac_cv_warnings_as_errors=yes],
     [ac_cv_warnings_as_errors=no])
 
@@ -27,8 +35,17 @@ AC_DEFUN([PANDORA_WARNINGS],[
 
   AS_IF([test "$GCC" = "yes"],[
 
-    AS_IF([test "$ac_profiling" = "yes"],
-          [CC_PROFILING="-pg"])
+    AS_IF([test "$ac_profiling" = "yes"],[
+      CC_PROFILING="-pg"
+      save_LIBS="${LIBS}"
+      LIBS=""
+      AC_CHECK_LIB(c_p, read)
+      LIBC_P="${LIBS}"
+      LIBS="${save_LIBS}"
+      AC_SUBST(LIBC_P)
+    ],[
+      CC_PROFILING=" "
+    ])
 
     AS_IF([test "$ac_coverage" = "yes"],
           [CC_COVERAGE="-fprofile-arcs -ftest-coverage"])
@@ -90,10 +107,18 @@ uint16_t x= htons(80);
             [NO_CONVERSION="-Wno-conversion"])
     ])
 
+    NO_STRICT_ALIASING="-fno-strict-aliasing -Wno-strict-aliasing"
 
-    BASE_WARNINGS="-pedantic -Wall -Wextra ${W_FAIL} -Wundef -Wshadow -Wmissing-declarations -Wstrict-aliasing -Wformat=2 ${F_DIAGNOSTICS_SHOW_OPTION} ${CFLAG_VISIBILITY} ${W_CONVERSION}"
+    AS_IF([test "${PW_FULL_WARNINGS}" = "yes"],[
+      BASE_WARNINGS_FULL="${W_CONVERSION} -Wstrict-aliasing"
+      CXX_WARNINGS_FULL="-Weffc++ -Wold-style-cast"
+    ],[
+      BASE_WARNINGS_FULL="${NO_STRICT_ALIASING}"
+    ])
+
+    BASE_WARNINGS="-pedantic -Wall -Wextra ${W_FAIL} -Wundef -Wshadow -Wmissing-declarations -Wstrict-aliasing -Wformat=2 ${F_DIAGNOSTICS_SHOW_OPTION} ${CFLAG_VISIBILITY} ${BASE_WARNINGS_FULL}"
     CC_WARNINGS="${BASE_WARNINGS} -Wstrict-prototypes -Wmissing-prototypes -Wredundant-decls -Wswitch-default -Wswitch-enum -Wcast-align"
-    CXX_WARNINGS="${BASE_WARNINGS} -Woverloaded-virtual -Wnon-virtual-dtor -Wctor-dtor-privacy -Wold-style-cast -Weffc++ -Wno-long-long"
+    CXX_WARNINGS="${BASE_WARNINGS} -Woverloaded-virtual -Wnon-virtual-dtor -Wctor-dtor-privacy -Wno-long-long ${CXX_WARNINGS_FULL}"
 
     AC_CACHE_CHECK([whether it is safe to use -Wlogical-op],
       [ac_cv_safe_to_use_Wlogical_op_],
@@ -131,7 +156,7 @@ template <> void C<int>::foo();
           [CXX_WARNINGS="${CXX_WARNINGS} -Wno-redundant-decls"])
 
     NO_REDUNDANT_DECLS="-Wno-redundant-decls"
-    NO_STRICT_ALIASING="-fno-strict-aliasing -Wno-strict-aliasing"
+    PROTOSKIP_WARNINGS="-Wno-effc++ -Wno-shadow"
     
   ])
 
@@ -161,12 +186,25 @@ template <> void C<int>::foo();
       [W_PASTE_RESULT=",E_PASTE_RESULT_NOT_TOKEN"])
 
 
-    CC_WARNINGS="-v -errtags=yes ${W_FAIL} -erroff=E_INTEGER_OVERFLOW_DETECTED${W_PASTE_RESULT}"
-    CXX_WARNINGS="+w +w2 -xwe -xport64 -errtags=yes ${W_FAIL}"
+    AS_IF([test "${PW_FULL_WARNINGS}" = "yes"],[
+      CC_WARNINGS_FULL="-erroff=E_INTEGER_OVERFLOW_DETECTED${W_PASTE_RESULT}"
+    ],[
+      CC_WARNINGS_FULL="-erroff=E_ATTRIBUTE_NOT_VAR"
+      CXX_WARNINGS_FULL="-erroff=attrskipunsup,doubunder,reftotemp,inllargeuse,truncwarn1,signextwarn,inllargeint"
+    ])
+
+    CC_WARNINGS="-v -errtags=yes ${W_FAIL} ${CC_WARNINGS_FULL}"
+    CXX_WARNINGS="+w +w2 -xwe -xport64 -errtags=yes ${CXX_WARNINGS_FULL} ${W_FAIL}"
+    PROTOSKIP_WARNINGS="-erroff=attrskipunsup,doubunder,reftotemp,wbadinitl,identexpected,inllargeuse,truncwarn1,signextwarn"
+    NO_UNREACHED="-erroff=E_STATEMENT_NOT_REACHED"
+
   ])
 
   AC_SUBST(NO_CONVERSION)
   AC_SUBST(NO_REDUNDANT_DECLS)
+  AC_SUBST(NO_UNREACHED)
   AC_SUBST(NO_STRICT_ALIASING)
+  AC_SUBST(PROTOSKIP_WARNINGS)
+
 
 ])
