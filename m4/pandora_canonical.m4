@@ -6,8 +6,16 @@ dnl with or without modifications, as long as this notice is preserved.
 dnl Which version of the canonical setup we're using
 AC_DEFUN([PANDORA_CANONICAL_VERSION],[0.1])
 
+AC_DEFUN([PANDORA_FORCE_DEPEND_TRACKING],[
+  dnl Force dependency tracking on for Sun Studio builds
+  AS_IF([test "x${enable_dependency_tracking}" = "x"],[
+    enable_dependency_tracking=yes
+  ])
+])
+
 dnl The standard setup for how we build Pandora projects
 AC_DEFUN([PANDORA_CANONICAL_TARGET],[
+  AC_REQUIRE([PANDORA_FORCE_DEPEND_TRACKING])
   m4_define([PCT_ALL_ARGS],[$@])
   m4_define([PCT_USE_GNULIB],[no])
   m4_define([PCT_REQUIRE_CXX],[no])
@@ -44,12 +52,6 @@ AC_DEFUN([PANDORA_CANONICAL_TARGET],[
   
   AC_REQUIRE([AC_PROG_CC])
 
-  dnl Force dependency tracking on for Sun Studio builds
-  AS_IF([test "x${enable_dependency_tracking}" = "x"],[
-    enable_dependency_tracking=yes
-  ])
-
-  
   dnl Once we can use a modern autoconf, we can use this
   dnl AC_PROG_CC_C99
   AC_PROG_CXX
