@@ -5,7 +5,6 @@
 # Use and distribution licensed under the BSD license.  See
 # the COPYING file in this directory for full text.
 
-AC_PREREQ(2.63)
 AC_INIT([pandora-build],[PANDORA_CANONICAL_VERSION],[http://launchpad.net/pandora-build])
 AC_CONFIG_SRCDIR([m4/pandora_canonical.m4])
 AC_CONFIG_AUX_DIR(config)
