@@ -15,7 +15,7 @@ AC_DEFUN([_PANDORA_SEARCH_SQLITE],[
     sqlite3_open(NULL, &db);
   ])
 
-  AM_CONDITIONAL(HAVE_LIBSQLITE3, [test x$ac_cv_libsqlite3 = xyes])
+  AM_CONDITIONAL(HAVE_LIBSQLITE3, [test "x${ac_cv_libsqlite3}" = "xyes"])
 
 ])
 
