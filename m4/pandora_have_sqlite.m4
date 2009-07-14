@@ -9,12 +9,12 @@ AC_DEFUN([PANDORA_HAVE_SQLITE],[
 
   AC_LIB_HAVE_LINKFLAGS(sqlite3,,
     [[
-#include <stdio.h>
-#include <sqlite3.h>
+      #include <stdio.h>
+      #include <sqlite3.h>
     ]],[[
-  sqlite3 *db;
-  sqlite3_open(NULL, &db);
-  ]])
+      sqlite3 *db;
+      sqlite3_open(NULL, &db);
+    ]])
 
   AM_CONDITIONAL(HAVE_LIBSQLITE3, [test x$ac_cv_libsqlite3 = xyes])
 
