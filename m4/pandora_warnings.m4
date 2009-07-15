@@ -128,7 +128,11 @@ uint16_t x= htons(80);
     NO_SHADOW="-Wno-shadow"
 
     AS_IF([test "$INTELCC" = "yes"],[
-      BASE_WARNINGS="-w1 -Wall -Wcheck -Wformat -Wp64 -Woverloaded-virtual -Wcast-qual -diag-disable 981"
+      m4_if(PW_LESS_WARNINGS,[no],[
+        BASE_WARNINGS="-w1 -Wall -Werror -Wcheck -Wformat -Wp64 -Woverloaded-virtual -Wcast-qual"
+      ],[
+        BASE_WARNINGS="-w1 -Wall -Wcheck -Wformat -Wp64 -Woverloaded-virtual -Wcast-qual -diag-disable 981"
+      ])
       CC_WARNINGS="${BASE_WARNINGS}"
       CXX_WARNINGS="${BASE_WARNINGS}"
     ],[
