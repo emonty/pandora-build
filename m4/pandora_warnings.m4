@@ -239,6 +239,7 @@ template <> void C<int>::foo();
 
     m4_if(PW_LESS_WARNINGS, [no],[
       CC_WARNINGS_FULL="-erroff=E_INTEGER_OVERFLOW_DETECTED${W_PASTE_RESULT}"
+      CXX_WARNINGS_FULL="-erroff=inllargeuse"
     ],[
       CC_WARNINGS_FULL="-erroff=E_ATTRIBUTE_NOT_VAR"
       CXX_WARNINGS_FULL="-erroff=attrskipunsup,doubunder,reftotemp,inllargeuse,truncwarn1,signextwarn,inllargeint"
