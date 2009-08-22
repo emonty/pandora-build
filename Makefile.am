@@ -15,6 +15,7 @@ aclocal_DATA= \
 	m4/pandora_check_cxx_standard.m4 \
 	m4/pandora_enable_dtrace.m4 \
 	m4/pandora_ensure_gcc_version.m4 \
+	m4/pandora_extensions.m4 \
 	m4/pandora_have_better_malloc.m4 \
 	m4/pandora_have_libdrizzle.m4 \
 	m4/pandora_have_libgearman.m4 \
