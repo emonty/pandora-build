@@ -64,8 +64,7 @@ AC_DEFUN([PANDORA_CANONICAL_TARGET],[
   dnl Once we can use a modern autoconf, we can use this
   dnl AC_PROG_CC_C99
   AC_REQUIRE([AC_PROG_CXX])
-  gl_USE_SYSTEM_EXTENSIONS
-  AC_PROG_CPP
+  PANDORA_EXTENSIONS
   AM_PROG_CC_C_O
 
 
