@@ -25,14 +25,15 @@ AC_DEFUN([PANDORA_WITH_PERL], [
       [ac_chk_perl=perl])
     AC_CHECK_PROGS(PERL,$ac_chk_perl)
   ])
+  AS_IF([test "x$PERL" != "x"],
+    PERLCCFLAGS=`$PERL -MConfig -e 'print $Config{ccflags};'`
+    PERLCPPFLAGS=`$PERL -MConfig -e 'print $Config{cppflags};'`
+    PERLLIBS=`$PERL -MConfig -e 'print $Config{perllibs};'`
+  ])
+  AC_SUBST([PERLCCFLAGS])
+  AC_SUBST([PERLCPPFLAGS])
+  AC_SUBST([PERLLIBS])
 
   AM_CONDITIONAL(BUILD_PERL, [test "$with_perl" = "yes"])
-
-dnl Don't think we need these anymore, but it's a good reference
-dnl if test "x$PERL" != "x"; then
-dnl  PERLCCFLAGS=`$PERL -MConfig -e 'print $Config{ccflags};'`
-dnl  PERLCPPFLAGS=`$PERL -MConfig -e 'print $Config{cppflags};'`
-dnl  PERLLIBS=`$PERL -MConfig -e 'print $Config{perllibs};'`
-dnl fi 
 
 ])
