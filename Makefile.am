@@ -23,7 +23,6 @@ aclocal_DATA= \
 	m4/pandora_have_libpq.m4 \
 	m4/pandora_have_libsqlite3.m4 \
 	m4/pandora_have_protobuf.m4 \
-	m4/pandora_have_sqlite.m4 \
 	m4/pandora_header_assert.m4 \
 	m4/pandora_libtool.m4 \
 	m4/pandora_optimize.m4 \
