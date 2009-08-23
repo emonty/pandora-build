@@ -29,6 +29,7 @@ aclocal_DATA= \
 	m4/pandora_platform.m4 \
 	m4/pandora_plugins.m4 \
 	m4/pandora_pthread.m4 \
+  m4/pandora_python3_devel.m4 \
 	m4/pandora_shared_ptr.m4 \
 	m4/pandora_swig.m4 \
 	m4/pandora_use_pipe.m4 \
