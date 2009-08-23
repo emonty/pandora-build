@@ -23,7 +23,7 @@ AC_DEFUN([PANDORA_WITH_PYTHON3], [
         python3_requested=no
       ])
 
-  AS_IF([test "x$ac_cv_swig_has_python3_" = "xno"],[
+  AS_IF([test "x$ac_cv_swig_has_python3_" != "xyes"],[
      with_python3=no
   ],[
    AS_IF([test "x$with_python3" != "xno"],[
