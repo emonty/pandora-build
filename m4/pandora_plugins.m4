@@ -16,8 +16,12 @@ AC_DEFUN([PANDORA_PLUGINS],[
                       value is given for --plugin-load])
 
   pandora_builtin_list=`echo $pandora_builtin_list | sed 's/, *$//'`
-  AC_DEFINE_UNQUOTED([PANDORA_BUILTIN_LIST],[$pandora_builtin_list],
-                     [List of plugins to be built in])
+  
+  AS_IF([test "x$1" != "x"],[
+    AC_CONFIG_FILES([$1])
+  ])
+
+  AC_SUBST([PANDORA_BUILTIN_LIST],[$pandora_builtin_list])
 
   AC_SUBST(pandora_plugin_test_list)
   AC_SUBST(pandora_plugin_libs)
