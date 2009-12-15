@@ -12,9 +12,9 @@
 
 AC_DEFUN([PANDORA_CXX_STL_HASH],
   [AC_MSG_CHECKING(the location of hash_map)
-   AC_LANG_PUSH(C++)
    save_CXXFLAGS="${CXXFLAGS}"
-   CXXFLAGS="${CXX_STANDARD} ${CXXFLAGS}"
+   CXXFLAGS="${AM_CXXFLAGS} ${CXXFLAGS}"
+   AC_LANG_PUSH(C++)
    ac_cv_cxx_hash_map=""
    for location in "" "ext/" "tr1/" ; do
      for namespace in __gnu_cxx "" std stdext; do
