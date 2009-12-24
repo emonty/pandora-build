@@ -404,32 +404,19 @@ endif
   if os.path.exists(plugin_am_file):
     plugin_am.write('include %s\n' % plugin_am_file)
 
-#MAIN STARTS HERE:
-
-actions=[]
-for arg in sys.argv:
-  if arg.startswith('--top_srcdir='):
-    top_srcdir=arg[12:]
-  elif arg.startswith('--top_builddir='):
-    top_builddir=arg[14:]
-  elif arg == "--force-all":
-    actions=['plugin-list','pandora-plugin.am','write']
-    break
-  else:
-    actions.append(arg)
-if len(actions) == 0:
-  actions.append('write')
-
-def accumulate_plugins(arg, dirname, fnames):
-  # plugin_ini_fname is a name in dirname indicating dirname is a plugin.
-  if plugin_ini_fname in fnames:
-    arg.append(dirname)
-os.path.walk(os.path.join(top_srcdir,"plugin"),accumulate_plugins,plugin_list)
 
 
-if not os.path.exists("config/pandora-plugin.am") or "write" in actions:
-  plugin_am_file = ChangeProtectedFile(os.path.join('config', 'pandora-plugin.am'))
-  plugin_am_file.write("""
+def register_plugins():
+
+	def accumulate_plugins(arg, dirname, fnames):
+		# plugin_ini_fname is a name in dirname indicating dirname is a plugin.
+		if plugin_ini_fname in fnames:
+			arg.append(dirname)
+
+  os.path.walk(os.path.join(top_srcdir,"plugin"),accumulate_plugins,plugin_list)
+	if not os.path.exists("config/pandora-plugin.am") or "write" in actions:
+		plugin_am_file = ChangeProtectedFile(os.path.join('config', 'pandora-plugin.am'))
+		plugin_am_file.write("""
 # always the current list, generated every build so keep this lean.
 # pandora-plugin.list: datestamp preserved list
 ${srcdir}/config/pandora-plugin.list: .plugin.scan
@@ -452,33 +439,52 @@ PANDORA_DYNAMIC_LDADDS=
 # plugin.stamp: graph dominator for creating all per pandora-plugin.ac/am
 # files. This is invoked when the code to generate such files has altered.""")
 
-if not os.path.exists("config/pandora-plugin.ac") or "write" in actions:
-  plugin_ac_file = ChangeProtectedFile(os.path.join('config', 'pandora-plugin.ac'))
-  plugin_ac_file.write("dnl Generated file, run make to rebuild\n")
+	if not os.path.exists("config/pandora-plugin.ac") or "write" in actions:
+		plugin_ac_file = ChangeProtectedFile(os.path.join('config', 'pandora-plugin.ac'))
+		plugin_ac_file.write("dnl Generated file, run make to rebuild\n")
 
 
-if os.path.exists('plugin.ini'):
-  # Are we in a plugin dir which wants to have a self-sufficient build system?
-  plugin_list=['.']
+	if os.path.exists('plugin.ini'):
+		# Are we in a plugin dir which wants to have a self-sufficient build system?
+		plugin_list=['.']
 
-  write_external_plugin()
-else:
-  plugin_list_file = ChangeProtectedFile(os.path.join('config', 'pandora-plugin.list'))
-  for p in plugin_list:
-    plugin_list_file.write(p)
-    plugin_list_file.write("\n")
-  plugin_list.sort()
-  plugin_list_file.close()
+		write_external_plugin()
+	else:
+		plugin_list_file = ChangeProtectedFile(os.path.join('config', 'pandora-plugin.list'))
+		for p in plugin_list:
+			plugin_list_file.write(p)
+			plugin_list_file.write("\n")
+		plugin_list.sort()
+		plugin_list_file.close()
 
-if not os.path.exists("config/pandora-plugin.am") or 'write' in actions:
-  plugin_am_file.write("\n${top_srcdir}/config/pandora-plugin.am: ${top_srcdir}/config/pandora-plugin.list ${top_srcdir}/config/pandora-plugin ")
-  for plugin_dir in plugin_list:
-    plugin_am_file.write("\\\n\t%s/plugin.ini " % plugin_dir)
-  plugin_am_file.write("\n\tcd ${top_srcdir} && python config/pandora-plugin write\n")
-  for plugin_dir in plugin_list:
-    write_plugin(plugin_dir)
+	if not os.path.exists("config/pandora-plugin.am") or 'write' in actions:
+		plugin_am_file.write("\n${top_srcdir}/config/pandora-plugin.am: ${top_srcdir}/config/pandora-plugin.list ${top_srcdir}/config/pandora-plugin ")
+		for plugin_dir in plugin_list:
+			plugin_am_file.write("\\\n\t%s/plugin.ini " % plugin_dir)
+		plugin_am_file.write("\n\tcd ${top_srcdir} && python config/pandora-plugin write\n")
+		for plugin_dir in plugin_list:
+			write_plugin(plugin_dir)
 
-if plugin_am_file is not None:
-  plugin_am_file.close()
-if plugin_ac_file is not None:
-  plugin_ac_file.close()
+	if plugin_am_file is not None:
+		plugin_am_file.close()
+	if plugin_ac_file is not None:
+		plugin_ac_file.close()
+
+if __name__ == "__main__":
+	actions=[]
+	for arg in sys.argv:
+		if arg.startswith('--top_srcdir='):
+			top_srcdir=arg[12:]
+		elif arg.startswith('--top_builddir='):
+			top_builddir=arg[14:]
+		elif arg == "--force-all":
+			actions=['plugin-list','pandora-plugin.am','write']
+			break
+		else:
+			actions.append(arg)
+	if len(actions) == 0:
+		actions.append('write')
+  if "install" in actions:
+    install()
+  else:
+    register_plugins(actions)
