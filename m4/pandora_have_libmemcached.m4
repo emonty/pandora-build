@@ -40,9 +40,9 @@ AC_DEFUN([_PANDORA_SEARCH_LIBMEMCACHED],[
 #include <libmemcached/memcached.h>
 memcached_server_fn callbacks[1];
     ]])],
-    [pandora_cv_libmemcached_server_fn =yes],
-    [pandora_cv_libmemcached_server_fn =no])])
-  AS_IF([test "$pandora_cv_libmemcached_server_fn" = "yes"],[
+    [pandora_cv_libmemcached_server_fn=yes],
+    [pandora_cv_libmemcached_server_fn=no])])
+  AS_IF([test "x$pandora_cv_libmemcached_server_fn" = "xyes"],[
     AC_DEFINE([HAVE_MEMCACHED_SERVER_FN],[1],[If we have the new memcached_server_fn typedef])
   ])
 
