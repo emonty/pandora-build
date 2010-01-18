@@ -7,7 +7,7 @@
 
 ACLOCAL_AMFLAGS= -I m4
 
-pandoradir= $(localstatedir)/pandora
+pandoradir= $(localstatedir)/pandora-build
 pandora_DATA= \
 	config/autorun.sh \
 	config/config.rpath \
