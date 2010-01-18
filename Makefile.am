@@ -12,7 +12,10 @@ pandora_DATA= \
 	config/autorun.sh \
 	config/config.rpath \
 	config/pandora-plugin \
-	config/uncrustify.cfg
+	config/uncrustify.cfg \
+	m4/lib-ld.m4 \
+	m4/lib-link.m4 \
+	m4/lib-prefix.m4
 
 aclocaldir= $(datadir)/aclocal
 aclocal_DATA= \
