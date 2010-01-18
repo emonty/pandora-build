@@ -7,6 +7,13 @@
 
 ACLOCAL_AMFLAGS= -I m4
 
+pandoradir= $(localstatedir)/pandora
+pandora_DATA= \
+	config/autorun.sh \
+	config/config.rpath \
+	config/pandora-plugin \
+	config/uncrustify.cfg
+
 aclocaldir= $(datadir)/aclocal
 aclocal_DATA= \
 	m4/pandora_64bit.m4 \
@@ -70,4 +77,4 @@ aclocal_DATA= \
 	m4/pandora_with_ruby.m4
 
 
-EXTRA_DIST= ${aclocal_DATA}
+EXTRA_DIST= ${aclocal_DATA} ${pandora_DATA}
