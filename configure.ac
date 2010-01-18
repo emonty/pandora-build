@@ -9,9 +9,11 @@ AC_INIT([pandora-build],[PANDORA_CANONICAL_VERSION],[http://launchpad.net/pandor
 AC_CONFIG_SRCDIR([m4/pandora_canonical.m4])
 AC_CONFIG_AUX_DIR(config)
 AC_CONFIG_MACRO_DIR([m4])
+AC_CONFIG_HEADERS([config.h])
 AC_PREFIX_DEFAULT([/usr])
 
-AM_INIT_AUTOMAKE(-Wall -Werror foreign subdir-objects)
+
+PANDORA_CANONICAL_TARGET
 
 AC_CONFIG_FILES(Makefile)
 
