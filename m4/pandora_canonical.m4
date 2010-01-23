@@ -4,7 +4,7 @@ dnl gives unlimited permission to copy and/or distribute it,
 dnl with or without modifications, as long as this notice is preserved.
 
 dnl Which version of the canonical setup we're using
-AC_DEFUN([PANDORA_CANONICAL_VERSION],[0.98])
+AC_DEFUN([PANDORA_CANONICAL_VERSION],[0.99])
 
 AC_DEFUN([PANDORA_FORCE_DEPEND_TRACKING],[
   AC_ARG_ENABLE([fat-binaries],
@@ -29,7 +29,6 @@ AC_DEFUN([PANDORA_CANONICAL_TARGET],[
   ifdef([m4_define],,[define([m4_define],   defn([define]))])
   ifdef([m4_undefine],,[define([m4_undefine],   defn([undefine]))])
   m4_define([PCT_ALL_ARGS],[$*])
-  m4_define([PCT_USE_GNULIB],[no])
   m4_define([PCT_REQUIRE_CXX],[no])
   m4_define([PCT_IGNORE_SHARED_PTR],[no])
   m4_define([PCT_FORCE_GCC42],[no])
@@ -38,10 +37,6 @@ AC_DEFUN([PANDORA_CANONICAL_TARGET],[
   m4_define([PCT_USE_VISIBILITY],[yes])
   m4_foreach([pct_arg],[$*],[
     m4_case(pct_arg,
-      [use-gnulib], [
-        m4_undefine([PCT_USE_GNULIB])
-        m4_define([PCT_USE_GNULIB],[yes])
-      ],
       [require-cxx], [
         m4_undefine([PCT_REQUIRE_CXX])
         m4_define([PCT_REQUIRE_CXX],[yes])
@@ -68,6 +63,14 @@ AC_DEFUN([PANDORA_CANONICAL_TARGET],[
     ])
   ])
 
+  AC_CONFIG_MACRO_DIR([m4])
+
+  m4_if(PCT_SRC_IN_SRC, [yes],[
+    AC_CONFIG_HEADERS([src/config.h])
+  ],[
+    AC_CONFIG_HEADERS([config.h])
+  ])
+
   # We need to prevent canonical target
   # from injecting -O2 into CFLAGS - but we won't modify anything if we have
   # set CFLAGS on the command line, since that should take ultimate precedence
@@ -81,7 +84,9 @@ AC_DEFUN([PANDORA_CANONICAL_TARGET],[
   AM_INIT_AUTOMAKE(-Wall -Werror nostdinc subdir-objects foreign)
   m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 
-  m4_if(PCT_USE_GNULIB,yes,[ gl_EARLY ])
+  AS_IF([test -d "${srcdir}/gnulib"],[
+    gl_EARLY
+  ])
   
   AC_REQUIRE([AC_PROG_CC])
   AC_REQUIRE([PANDORA_MAC_GCC42])
@@ -125,7 +130,7 @@ AC_DEFUN([PANDORA_CANONICAL_TARGET],[
     ])
   ])
   
-  m4_if(PCT_USE_GNULIB, [yes], [
+  AS_IF([test -d "${srcdir}/gnulib"],[
     gl_INIT
     AC_CONFIG_LIBOBJ_DIR([gnulib])
   ])
@@ -221,6 +226,8 @@ AC_DEFUN([PANDORA_CANONICAL_TARGET],[
   AC_CHECK_PROGS([DOXYGEN], [doxygen])
   AC_CHECK_PROGS([PERL], [perl])
 
+  AS_IF([test -d "${srcdir}/po"], [PANDORA_WITH_GETTEXT])
+
   AS_IF([test "x${gl_LIBOBJS}" != "x"],[
     AS_IF([test "$GCC" = "yes"],[
       AM_CPPFLAGS="-isystem \$(top_srcdir)/gnulib -isystem \$(top_builddir)/gnulib ${AM_CPPFLAGS}"
@@ -228,14 +235,15 @@ AC_DEFUN([PANDORA_CANONICAL_TARGET],[
     AM_CPPFLAGS="-I\$(top_srcdir)/gnulib -I\$(top_builddir)/gnulib ${AM_CPPFLAGS}"
     ])
   ])
-  AS_IF([test "PCT_SRC_IN_SRC" = "yes"],[
+  m4_if(PCT_SRC_IN_SRC, [yes],[
     AM_CPPFLAGS="-I\$(top_srcdir)/src -I\$(top_builddir)/src ${AM_CPPFLAGS}"
+  ],[
+    AM_CPPFLAGS="-I\${top_srcdir} -I\${top_builddir} ${AM_CPPFLAGS}"
   ])
 
   PANDORA_USE_PIPE
 
 
-  AM_CPPFLAGS="-I\${top_srcdir} -I\${top_builddir} ${AM_CPPFLAGS}"
   AM_CFLAGS="${AM_CFLAGS} ${CC_WARNINGS} ${CC_PROFILING} ${CC_COVERAGE}"
   AM_CXXFLAGS="${AM_CXXFLAGS} ${CXX_WARNINGS} ${CC_PROFILING} ${CC_COVERAGE}"
 
