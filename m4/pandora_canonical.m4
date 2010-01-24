@@ -30,7 +30,6 @@ AC_DEFUN([PANDORA_CANONICAL_TARGET],[
   ifdef([m4_undefine],,[define([m4_undefine],   defn([undefine]))])
   m4_define([PCT_ALL_ARGS],[$*])
   m4_define([PCT_REQUIRE_CXX],[no])
-  m4_define([PCT_IGNORE_SHARED_PTR],[no])
   m4_define([PCT_FORCE_GCC42],[no])
   m4_define([PCT_SRC_IN_SRC],[no])
   m4_define([PCT_VERSION_FROM_VC],[no])
@@ -40,10 +39,6 @@ AC_DEFUN([PANDORA_CANONICAL_TARGET],[
       [require-cxx], [
         m4_undefine([PCT_REQUIRE_CXX])
         m4_define([PCT_REQUIRE_CXX],[yes])
-      ],
-      [ignore-shared-ptr], [
-        m4_undefine([PCT_IGNORE_SHARED_PTR])
-        m4_define([PCT_IGNORE_SHARED_PTR],[yes])
       ],
       [force-gcc42], [
         m4_undefine([PCT_FORCE_GCC42])
@@ -121,13 +116,6 @@ AC_DEFUN([PANDORA_CANONICAL_TARGET],[
       AC_MSG_ERROR([No working C++ Compiler has been found. ${PACKAGE} requires a C++ compiler that can handle C++98])
     ])
 
-  ])
-  
-  PANDORA_SHARED_PTR
-  m4_if(PCT_IGNORE_SHARED_PTR, [no], [
-    AS_IF([test "$ac_cv_shared_ptr_namespace" = "missing"],[
-      AC_MSG_WARN([a usable shared_ptr implementation was not found. Let someone know what your platform is.])
-    ])
   ])
   
   m4_if(m4_syscmd(test -d "${srcdir}/gnulib"),0,[
