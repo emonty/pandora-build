@@ -31,7 +31,6 @@ AC_DEFUN([PANDORA_CANONICAL_TARGET],[
   m4_define([PCT_ALL_ARGS],[$*])
   m4_define([PCT_REQUIRE_CXX],[no])
   m4_define([PCT_FORCE_GCC42],[no])
-  m4_define([PCT_SRC_IN_SRC],[no])
   m4_define([PCT_VERSION_FROM_VC],[no])
   m4_define([PCT_USE_VISIBILITY],[yes])
   m4_foreach([pct_arg],[$*],[
@@ -48,10 +47,6 @@ AC_DEFUN([PANDORA_CANONICAL_TARGET],[
         m4_undefine([PCT_USE_VISIBILITY])
         m4_define([PCT_USE_VISIBILITY],[no])
       ],
-      [src-in-src], [
-        m4_undefine([PCT_SRC_IN_SRC])
-        m4_define([PCT_SRC_IN_SRC],[yes])
-      ],
       [version-from-vc], [
         m4_undefine([PCT_VERSION_FROM_VC])
         m4_define([PCT_VERSION_FROM_VC],[yes])
@@ -60,7 +55,7 @@ AC_DEFUN([PANDORA_CANONICAL_TARGET],[
 
   AC_CONFIG_MACRO_DIR([m4])
 
-  m4_if(PCT_SRC_IN_SRC, [yes],[
+  m4_if(m4_esyscmd(test -d src && echo -n 0),0,[
     AC_CONFIG_HEADERS([src/config.h])
   ],[
     AC_CONFIG_HEADERS([config.h])
@@ -79,7 +74,7 @@ AC_DEFUN([PANDORA_CANONICAL_TARGET],[
   AM_INIT_AUTOMAKE(-Wall -Werror nostdinc subdir-objects foreign)
   m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 
-  m4_if(m4_syscmd(test -d "${srcdir}/gnulib"),0,[
+  m4_if(m4_esyscmd(test -d gnulib && echo -n 0),0,[
     gl_EARLY
   ])
   
@@ -118,7 +113,7 @@ AC_DEFUN([PANDORA_CANONICAL_TARGET],[
 
   ])
   
-  m4_if(m4_syscmd(test -d "${srcdir}/gnulib"),0,[
+  m4_if(m4_esyscmd(test -d gnulib && echo -n 0),0,[
     gl_INIT
     AC_CONFIG_LIBOBJ_DIR([gnulib])
   ])
@@ -218,15 +213,15 @@ AC_DEFUN([PANDORA_CANONICAL_TARGET],[
 
   AS_IF([test "x${gl_LIBOBJS}" != "x"],[
     AS_IF([test "$GCC" = "yes"],[
-      AM_CPPFLAGS="-isystem \$(top_srcdir)/gnulib -isystem \$(top_builddir)/gnulib ${AM_CPPFLAGS}"
+      AM_CPPFLAGS="-isystem \${top_srcdir}/gnulib -isystem \${top_builddir}/gnulib ${AM_CPPFLAGS}"
     ],[
-    AM_CPPFLAGS="-I\$(top_srcdir)/gnulib -I\$(top_builddir)/gnulib ${AM_CPPFLAGS}"
+    AM_CPPFLAGS="-I\${top_srcdir}/gnulib -I\${top_builddir}/gnulib ${AM_CPPFLAGS}"
     ])
   ])
-  m4_if(PCT_SRC_IN_SRC, [yes],[
+  m4_if(m4_esyscmd(test -d src && echo -n 0),0,[
     AM_CPPFLAGS="-I\$(top_srcdir)/src -I\$(top_builddir)/src ${AM_CPPFLAGS}"
   ],[
-    AM_CPPFLAGS="-I\${top_srcdir} -I\${top_builddir} ${AM_CPPFLAGS}"
+    AM_CPPFLAGS="-I\$(top_srcdir) -I\$(top_builddir) ${AM_CPPFLAGS}"
   ])
 
   PANDORA_USE_PIPE

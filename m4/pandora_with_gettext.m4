@@ -11,7 +11,7 @@ dnl From Monty Taylor
 
 AC_DEFUN([PANDORA_WITH_GETTEXT],[
 
-  m4_if(m4_syscmd([test -d po]),0,[
+  m4_if(m4_esyscmd(test -d po && echo -n 0),0,[
     echo "# This file is auto-generated from configure. Do not edit directly" > po/POTFILES.in.stamp
     PACKAGE=`grep ^AC_INIT configure.ac | cut -f2-3 -d[ | cut -f1 -d]`
     for f in `find . | grep -v "${PACKAGE}-" | egrep '\.(cc|c|h|yy)$' | cut -c3- | sort`
