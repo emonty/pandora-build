@@ -11,10 +11,11 @@ dnl From Monty Taylor
 
 AC_DEFUN([PANDORA_WITH_GETTEXT],[
 
-  m4_if(m4_esyscmd(test -d po && echo -n 0),0,[
+  
+  m4_syscmd([if test -d po ; then
     echo "# This file is auto-generated from configure. Do not edit directly" > po/POTFILES.in.stamp
-    PACKAGE=`grep ^AC_INIT configure.ac | cut -f2-3 -d[ | cut -f1 -d]`
-    for f in `find . | grep -v "${PACKAGE}-" | egrep '\.(cc|c|h|yy)$' | cut -c3- | sort`
+    PACKAGE=$(grep ^AC_INIT configure.ac | cut -f2-3 -d[ | cut -f1 -d])
+    for f in $(find . | grep -v "${PACKAGE}-" | egrep '\.(cc|c|h|yy)$' | cut -c3- | sort)
     do
       if grep gettext.h "$f" | grep include >/dev/null 2>&1
       then
@@ -27,11 +28,13 @@ AC_DEFUN([PANDORA_WITH_GETTEXT],[
     else
       mv po/POTFILES.in.stamp po/POTFILES.in
     fi
+  fi])
 
+  m4_if(m4_esyscmd(test -d po && echo -n 0), 0, [
     AM_GNU_GETTEXT(external, need-formatstring-macros)
     AM_GNU_GETTEXT_VERSION([0.17])
     AS_IF([test "x$MSGMERGE" = "x" -o "x$MSGMERGE" = "x:"],[
-      AM_PATH_PROG_WITH_TEST(GMSGMERGE, gmsgmerge,
+      AM_PATH_PROG_WITH_TEST([GMSGMERGE], gmsgmerge,
         [$ac_dir/$ac_word --update -q /dev/null /dev/null >&]AS_MESSAGE_LOG_FD[ 2>&1], :)
       MSGMERGE="${GMSGMERGE}"
     ])

@@ -209,7 +209,7 @@ AC_DEFUN([PANDORA_CANONICAL_TARGET],[
   AC_CHECK_PROGS([DOXYGEN], [doxygen])
   AC_CHECK_PROGS([PERL], [perl])
 
-  AS_IF([test -d "${srcdir}/po"], [PANDORA_WITH_GETTEXT])
+  PANDORA_WITH_GETTEXT
 
   AS_IF([test "x${gl_LIBOBJS}" != "x"],[
     AS_IF([test "$GCC" = "yes"],[
