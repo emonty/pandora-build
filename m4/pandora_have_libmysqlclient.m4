@@ -15,24 +15,27 @@ AC_DEFUN([PANDORA_WITH_MYSQL],[
       [with_mysql=":"])
 
   dnl There are three possibilities:
-  dnl   1) a directory argument is given: that will be mysql_base
-  dnl   2) nothing is given: we will search for mysql_config in PATH
-  dnl   3) the location of mysql_config is given: we'll use that to determine
+  dnl   1) nothing is given: we will search for mysql_config in PATH
+  dnl   2) the location of mysql_config is given: we'll use that to determine
+  dnl   3) a directory argument is given: that will be mysql_base
+
+     
+  dnl option 1: nothing, we need to insert something into MYSQL_CONFIG
+  AS_IF([test "x$with_mysql" = "x:"],[
+    AC_CHECK_PROGS(MYSQL_CONFIG,[mysql_config])
+  ],[
+    MYSQL_CONFIG="${with_mysql}"
+  ])
+
   AC_CACHE_CHECK([for MySQL Base Location],[pandora_cv_mysql_base],[
 
-    dnl option 1: a directory
-    AS_IF([test -d $with_mysql],[pandora_cv_mysql_base=$with_mysql],[
-     
-      dnl option 2: nothing, we need to insert something into MYSQL_CONFIG
-      AS_IF([test "x$with_mysql" = "x:"],[
-        AC_CHECK_PROGS(MYSQL_CONFIG,[mysql_config])
-      ],[
-        MYSQL_CONFIG="${with_mysql}"
-      ])
-
-      dnl option 3: something in MYSQL_CONFIG now, use that to get a base dir
-      AS_IF([test -f "${MYSQL_CONFIG}" -a -x "${MYSQL_CONFIG}"],[
-        pandora_cv_mysql_base=$(dirname $(MYSQL_CONFIG --include | sed 's/-I//'))
+    dnl option 2: something in MYSQL_CONFIG now, use that to get a base dir
+    AS_IF([test -f "${MYSQL_CONFIG}" -a -x "${MYSQL_CONFIG}"],[
+      pandora_cv_mysql_base=$(dirname $(MYSQL_CONFIG --include | sed 's/-I//'))
+    ],[
+      dnl option 1: a directory
+      AS_IF([test -d $with_mysql],[pandora_cv_mysql_base=$with_mysql],[
+        pandora_cv_mysql_base="not found"
       ])
     ])
   ])

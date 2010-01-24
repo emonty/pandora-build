@@ -84,7 +84,7 @@ AC_DEFUN([PANDORA_CANONICAL_TARGET],[
   AM_INIT_AUTOMAKE(-Wall -Werror nostdinc subdir-objects foreign)
   m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 
-  AS_IF([test -d "${srcdir}/gnulib"],[
+  m4_if(m4_syscmd(test -d "${srcdir}/gnulib"),0,[
     gl_EARLY
   ])
   
@@ -130,7 +130,7 @@ AC_DEFUN([PANDORA_CANONICAL_TARGET],[
     ])
   ])
   
-  AS_IF([test -d "${srcdir}/gnulib"],[
+  m4_if(m4_syscmd(test -d "${srcdir}/gnulib"),0,[
     gl_INIT
     AC_CONFIG_LIBOBJ_DIR([gnulib])
   ])
