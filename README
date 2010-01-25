@@ -1,0 +1,18 @@
+Pandora-build is a set of autoconf macros and other tools intended to provide a
+sane and correct autoconf build environment.
+
+Currently, there are two ways to use it:
+
+ a) installed on the system - everyone bulding from your VC will need an
+    installed copy of pandora-build
+ b) copied in to your project - copy the files from config/ and m4/ into your
+    config/ and m4/ directories in your project
+
+Known projects using pandora-build at the moment are:
+
+  Drizzle
+  Gearmand
+  libdrizzle
+  libmemcached
+  vapour
+  kimura
