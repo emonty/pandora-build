@@ -17,10 +17,6 @@ AC_DEFUN([PANDORA_DRIZZLE_BUILD],[
 
   AC_STRUCT_TM
 
-  dnl AC_FUNC_ALLOCA would test for stack direction if we didn't have a working
-  dnl alloca - but we need to know it anyway for check_stack_overrun.
-  PANDORA_STACK_DIRECTION
-
   AC_FUNC_ALLOCA
   AC_FUNC_UTIME_NULL
   AC_FUNC_VPRINTF
