@@ -33,7 +33,7 @@ dnl FIX THIS
    ac_cv_c_stack_direction=-1
   ])
  ])
- AC_DEFINE_UNQUOTED(STACK_DIRECTION, $ac_cv_c_stack_direction)
+ AC_DEFINE_UNQUOTED(PANDORA_STACK_DIRECTION, $ac_cv_c_stack_direction)
 ])
 
 
