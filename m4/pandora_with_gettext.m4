@@ -38,7 +38,7 @@ AC_DEFUN([PANDORA_WITH_GETTEXT],[
         [$ac_dir/$ac_word --update -q /dev/null /dev/null >&]AS_MESSAGE_LOG_FD[ 2>&1], :)
       MSGMERGE="${GMSGMERGE}"
     ])
-    AM_CONDITIONAL([BUILD_GETTEXT],[test "x$MSGMERGE" != "x" -a "x$MSGMERGE" != "x:"])
   ])
+  AM_CONDITIONAL([BUILD_GETTEXT],[test "x$MSGMERGE" != "x" -a "x$MSGMERGE" != "x:"])
 
 ])
