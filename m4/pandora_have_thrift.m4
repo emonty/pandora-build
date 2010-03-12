@@ -22,7 +22,6 @@ AC_DEFUN([_PANDORA_SEARCH_THRIFT],[
     ],[
       PACKAGE_STRING
     ])
-    AM_CXXFLAGS="${AM_CXXFLAGS} -I/usr/local/include/thrift" 
   ],[
     ac_cv_thrift="no"
   ])
