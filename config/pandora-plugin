@@ -153,7 +153,7 @@ pkgplugin_LTLIBRARIES=%(pname)s.la
 %(pname)s_la_LDFLAGS=-avoid-version -rpath $(pkgplugindir) $(AM_LDFLAGS) %(ldflags)s $(GCOV_LIBS)
 %(pname)s_la_LIBADD=%(libs)s
 %(pname)s_la_DEPENDENCIES=%(libs)s
-%(pname)s_la_CPPFLAGS=$(AM_CPPFLAGS) -DPANDORA_DYNAMIC_PLUGIN -DPANDORA_MODULE_NAME=%(name)s -DPANDORA_MODULE_AUTHOR="%(author)s" -DPANDORA_MODULE_TITLE="%(title)s" -DPANDORA_MODULE_VERSION="%(version)s" -DPANDORA_MODULE_LICENSE=%(license)s %(cppflags)s
+%(pname)s_la_CPPFLAGS=$(AM_CPPFLAGS) -DPANDORA_DYNAMIC_PLUGIN -DPANDORA_MODULE_NAME=%(name)s -DPANDORA_MODULE_AUTHOR='"%(author)s"' -DPANDORA_MODULE_TITLE='"%(title)s"' -DPANDORA_MODULE_VERSION='"%(version)s"' -DPANDORA_MODULE_LICENSE=%(license)s %(cppflags)s
 %(pname)s_la_CXXFLAGS=$(AM_CXXFLAGS) %(cxxflags)s
 %(pname)s_la_CFLAGS=$(AM_CFLAGS) %(cflags)s
 
@@ -420,6 +420,14 @@ def read_plugin_ini(plugin_dir):
     plugin['plugin_suffix']= plugin_suffix
     plugin['pkgplugindir']= pkgplugindir
 
+# Libtool is going to expand:
+#      -DPANDORA_MODULE_AUTHOR='"Padraig O'"'"'Sullivan"'
+# to:
+# "-DPANDORA_MODULE_AUTHOR=\"Padraig O'Sullivan\""
+# So we have to replace internal ''s to '"'"'
+    for key in ('author','title','description','version'):
+      plugin[key]=plugin[key].replace("'","'\"'\"'")
+      plugin[key]=plugin[key].replace('"','\\"')
     return plugin
 
 
@@ -452,7 +460,7 @@ if %(build_conditional_tag)s
   %(root_plugin_dir)s_%(pname)s_la_LIBADD=%(libs)s
   %(root_plugin_dir)s_%(pname)s_la_DEPENDENCIES=%(libs)s
   %(root_plugin_dir)s_%(pname)s_la_LDFLAGS=$(AM_LDFLAGS) %(ldflags)s $(GCOV_LIBS)
-  %(root_plugin_dir)s_%(pname)s_la_CPPFLAGS=$(AM_CPPFLAGS) -DPANDORA_MODULE_NAME=%(name)s -DPANDORA_MODULE_AUTHOR="%(author)s" -DPANDORA_MODULE_TITLE="%(title)s" -DPANDORA_MODULE_VERSION="%(version)s" -DPANDORA_MODULE_LICENSE=%(license)s %(cppflags)s
+  %(root_plugin_dir)s_%(pname)s_la_CPPFLAGS=$(AM_CPPFLAGS) -DPANDORA_MODULE_NAME=%(name)s -DPANDORA_MODULE_AUTHOR='"%(author)s"' -DPANDORA_MODULE_TITLE='"%(title)s"' -DPANDORA_MODULE_VERSION='"%(version)s"' -DPANDORA_MODULE_LICENSE=%(license)s %(cppflags)s
   %(root_plugin_dir)s_%(pname)s_la_CXXFLAGS=$(AM_CXXFLAGS) %(cxxflags)s
   %(root_plugin_dir)s_%(pname)s_la_CFLAGS=$(AM_CFLAGS) %(cflags)s
 
@@ -469,7 +477,7 @@ if %(build_conditional_tag)s
   %(root_plugin_dir)s_%(pname)s_la_LDFLAGS=-avoid-version -rpath $(pkgplugindir) $(AM_LDFLAGS) %(ldflags)s $(GCOV_LIBS)
   %(root_plugin_dir)s_%(pname)s_la_LIBADD=%(libs)s
   %(root_plugin_dir)s_%(pname)s_la_DEPENDENCIES=%(libs)s
-  %(root_plugin_dir)s_%(pname)s_la_CPPFLAGS=$(AM_CPPFLAGS) -DPANDORA_DYNAMIC_PLUGIN -DPANDORA_MODULE_NAME=%(name)s -DPANDORA_MODULE_AUTHOR="%(author)s" -DPANDORA_MODULE_TITLE="%(title)s" -DPANDORA_MODULE_VERSION="%(version)s" -DPANDORA_MODULE_LICENSE=%(license)s %(cppflags)s
+  %(root_plugin_dir)s_%(pname)s_la_CPPFLAGS=$(AM_CPPFLAGS) -DPANDORA_DYNAMIC_PLUGIN -DPANDORA_MODULE_NAME=%(name)s -DPANDORA_MODULE_AUTHOR='"%(author)s"' -DPANDORA_MODULE_TITLE='"%(title)s"' -DPANDORA_MODULE_VERSION='"%(version)s"' -DPANDORA_MODULE_LICENSE=%(license)s %(cppflags)s
   %(root_plugin_dir)s_%(pname)s_la_CXXFLAGS=$(AM_CXXFLAGS) %(cxxflags)s
   %(root_plugin_dir)s_%(pname)s_la_CFLAGS=$(AM_CFLAGS) %(cflags)s
 
