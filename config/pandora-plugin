@@ -426,8 +426,8 @@ def read_plugin_ini(plugin_dir):
 # "-DPANDORA_MODULE_AUTHOR=\"Padraig O'Sullivan\""
 # So we have to replace internal ''s to '"'"'
     for key in ('author','title','description','version'):
-      plugin[key]=plugin[key].replace("'","'\"'\"'")
       plugin[key]=plugin[key].replace('"','\\"')
+      plugin[key]=plugin[key].replace("'","'\"'\"'")
     return plugin
 
 
