@@ -31,3 +31,5 @@ pkgplugindir='$(libdir)/ScaleStack'
 default_install='True'
 default_plugin_version=''
 force_lowercase_libname=True
+plugin_name_separator='_'
+module_name_separator='::'

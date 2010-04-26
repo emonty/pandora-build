@@ -141,7 +141,7 @@ pkgplugin_LTLIBRARIES=%(libname)s.la
 %(libname)s_la_LDFLAGS=-avoid-version -rpath $(pkgplugindir) $(AM_LDFLAGS) %(ldflags)s $(GCOV_LIBS)
 %(libname)s_la_LIBADD=%(libs)s
 %(libname)s_la_DEPENDENCIES=%(libs)s
-%(libname)s_la_CPPFLAGS=$(AM_CPPFLAGS) -DPANDORA_DYNAMIC_PLUGIN -DPANDORA_MODULE_NAME=%(name)s -DPANDORA_MODULE_AUTHOR='"%(author)s"' -DPANDORA_MODULE_TITLE='"%(title)s"' -DPANDORA_MODULE_VERSION='"%(version)s"' -DPANDORA_MODULE_LICENSE=%(license)s %(cppflags)s
+%(libname)s_la_CPPFLAGS=$(AM_CPPFLAGS) -DPANDORA_DYNAMIC_PLUGIN -DPANDORA_MODULE_NAME=%(module_name)s -DPANDORA_MODULE_AUTHOR='"%(author)s"' -DPANDORA_MODULE_TITLE='"%(title)s"' -DPANDORA_MODULE_VERSION='"%(version)s"' -DPANDORA_MODULE_LICENSE=%(license)s %(cppflags)s
 %(libname)s_la_CXXFLAGS=$(AM_CXXFLAGS) %(cxxflags)s
 %(libname)s_la_CFLAGS=$(AM_CFLAGS) %(cflags)s
 
@@ -181,7 +181,7 @@ def write_plugin(plugin, plugin_ini_list):
     for dependency in plugin['dependency_list']:
       found = False
       for find_plugin in plugin_ini_list:
-        if find_plugin['name'] == dependency:
+        if find_plugin['module_name'] == dependency:
           found = True
           write_plugin(find_plugin, plugin_ini_list)
           break
@@ -305,8 +305,6 @@ def expand_plugin_ini(plugin):
       plugin['unconditional']=False
     # TODO: determine path to plugin dir relative to top_srcdir... append it to
     # source files if they don't already have it
-    if plugin['sources'] == "":
-      plugin['sources']="%s.cc" % plugin['name']
     new_sources=""
     if plugin['plugin_dir'] != ".":
       for src in plugin['sources'].split():
@@ -358,9 +356,9 @@ def expand_plugin_ini(plugin):
       plugin['build_conditional']='"x${with_%(name)s_plugin}" = "xyes"' %plugin
 
     if plugin['install']:
-      plugin['library_type']= 'pkgplugin';
+      plugin['library_type']= 'pkgplugin'
     else:
-      plugin['library_type']= 'noinst';
+      plugin['library_type']= 'noinst'
 
 def find_testsuite(plugin_dir):
   for testdir in ['drizzle-tests','tests']:
@@ -374,10 +372,14 @@ def read_plugin_ini(plugin_dir):
     if plugin_dir == ".":
       plugin_name="**OUT-OF-TREE**"
     else:
-      plugin_name=os.path.basename(plugin_dir)
+      short_name=os.path.basename(plugin_dir)
+      plugin_name = plugin_dir[plugin_dir.index(root_plugin_dir) + len(root_plugin_dir) + 1:]
+      module_name = plugin_name.replace("/", module_name_separator).replace("\\", module_name_separator)
+      plugin_name = plugin_name.replace("/", plugin_name_separator).replace("\\", plugin_name_separator)
+
 
     plugin_file= os.path.join(plugin_dir,plugin_ini_fname)
-    plugin_defaults= dict(sources="",
+    plugin_defaults= dict(sources="%s.cc" % short_name,
                           headers="",
                           install_headers="",
                           cflags="",
@@ -390,6 +392,7 @@ def read_plugin_ini(plugin_dir):
                           description="",
                           license="PLUGIN_LICENSE_GPL",
                           name=plugin_name,
+                          module_name=module_name,
                           load_by_default="False",
                           disabled="False",
                           static="False",
@@ -501,7 +504,7 @@ if %(build_conditional_tag)s
   %(root_plugin_dir)s_%(libname)s_la_LIBADD=%(libs)s
   %(root_plugin_dir)s_%(libname)s_la_DEPENDENCIES=%(libs)s
   %(root_plugin_dir)s_%(libname)s_la_LDFLAGS=$(AM_LDFLAGS) %(ldflags)s $(GCOV_LIBS)
-  %(root_plugin_dir)s_%(libname)s_la_CPPFLAGS=$(AM_CPPFLAGS) -DPANDORA_MODULE_NAME=%(name)s -DPANDORA_MODULE_AUTHOR='"%(author)s"' -DPANDORA_MODULE_TITLE='"%(title)s"' -DPANDORA_MODULE_VERSION='"%(version)s"' -DPANDORA_MODULE_LICENSE=%(license)s -DPANDORA_MODULE_DEPENDENCIES='"%(dependencies)s"' %(cppflags)s
+  %(root_plugin_dir)s_%(libname)s_la_CPPFLAGS=$(AM_CPPFLAGS) -DPANDORA_MODULE_NAME=%(module_name)s -DPANDORA_MODULE_AUTHOR='"%(author)s"' -DPANDORA_MODULE_TITLE='"%(title)s"' -DPANDORA_MODULE_VERSION='"%(version)s"' -DPANDORA_MODULE_LICENSE=%(license)s -DPANDORA_MODULE_DEPENDENCIES='"%(dependencies)s"' %(cppflags)s
   %(root_plugin_dir)s_%(libname)s_la_CXXFLAGS=$(AM_CXXFLAGS) %(cxxflags)s
   %(root_plugin_dir)s_%(libname)s_la_CFLAGS=$(AM_CFLAGS) %(cflags)s
 
@@ -518,7 +521,7 @@ if %(build_conditional_tag)s
   %(root_plugin_dir)s_%(libname)s_la_LDFLAGS=-avoid-version -rpath $(pkgplugindir) $(AM_LDFLAGS) %(ldflags)s $(GCOV_LIBS)
   %(root_plugin_dir)s_%(libname)s_la_LIBADD=%(libs)s
   %(root_plugin_dir)s_%(libname)s_la_DEPENDENCIES=%(libs)s
-  %(root_plugin_dir)s_%(libname)s_la_CPPFLAGS=$(AM_CPPFLAGS) -DPANDORA_DYNAMIC_PLUGIN -DPANDORA_MODULE_NAME=%(name)s -DPANDORA_MODULE_AUTHOR='"%(author)s"' -DPANDORA_MODULE_TITLE='"%(title)s"' -DPANDORA_MODULE_VERSION='"%(version)s"' -DPANDORA_MODULE_LICENSE=%(license)s -DPANDORA_MODULE_DEPENDENCIES='"%(dependencies)s"' %(cppflags)s
+  %(root_plugin_dir)s_%(libname)s_la_CPPFLAGS=$(AM_CPPFLAGS) -DPANDORA_DYNAMIC_PLUGIN -DPANDORA_MODULE_NAME=%(module_name)s -DPANDORA_MODULE_AUTHOR='"%(author)s"' -DPANDORA_MODULE_TITLE='"%(title)s"' -DPANDORA_MODULE_VERSION='"%(version)s"' -DPANDORA_MODULE_LICENSE=%(license)s -DPANDORA_MODULE_DEPENDENCIES='"%(dependencies)s"' %(cppflags)s
   %(root_plugin_dir)s_%(libname)s_la_CXXFLAGS=$(AM_CXXFLAGS) %(cxxflags)s
   %(root_plugin_dir)s_%(libname)s_la_CFLAGS=$(AM_CFLAGS) %(cflags)s
 
@@ -630,6 +633,13 @@ if not os.path.exists("config/pandora-plugin.am") or 'write' in actions:
     plugin = read_plugin_ini(plugin_dir)
     expand_plugin_ini(plugin)
     plugin_ini_list.append(plugin)
+
+  # Check for duplicates
+  plugin_name_list =  [plugin['libname'] for plugin in plugin_ini_list]
+  for plugin in plugin_ini_list:
+    if plugin_name_list.count(plugin['libname']) != 1:
+      print "Duplicate module name %s" % plugin['libname']
+      exit(1)
 
   for plugin in plugin_ini_list:
     write_plugin(plugin, plugin_ini_list)
