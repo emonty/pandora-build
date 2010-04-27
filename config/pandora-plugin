@@ -15,6 +15,7 @@
 #  along with this program; if not, write to the Free Software
 #  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
+pandora_plugin_file = 'config/pandora-plugin.ini'
 
 # Find plugins in the tree and add them to the build system 
 
@@ -22,7 +23,8 @@ import ConfigParser, os, sys
 import datetime, time
 import subprocess
 
-from pandora_plugin_config import *
+plugin_am_file=None
+plugin_ac_file=None
 
 class ChangeProtectedFile(object):
 
@@ -301,7 +303,7 @@ def expand_plugin_ini(plugin):
       plugin['rel_path']= plugin['plugin_dir']
       plugin['unconditional']=True
     else:
-      plugin['rel_path']= plugin['plugin_dir'][len(top_srcdir)+len(os.path.sep):]
+      plugin['rel_path']= plugin['plugin_dir'][len(config['top_srcdir'])+len(os.path.sep):]
       plugin['unconditional']=False
     # TODO: determine path to plugin dir relative to top_srcdir... append it to
     # source files if they don't already have it
@@ -373,12 +375,12 @@ def read_plugin_ini(plugin_dir):
       plugin_name="**OUT-OF-TREE**"
     else:
       short_name=os.path.basename(plugin_dir)
-      plugin_name = plugin_dir[plugin_dir.index(root_plugin_dir) + len(root_plugin_dir) + 1:]
-      module_name = plugin_name.replace("/", module_name_separator).replace("\\", module_name_separator)
-      plugin_name = plugin_name.replace("/", plugin_name_separator).replace("\\", plugin_name_separator)
+      plugin_name = plugin_dir[plugin_dir.index(config['root_plugin_dir']) + len(config['root_plugin_dir']) + 1:]
+      module_name = plugin_name.replace("/", config['module_name_separator']).replace("\\", config['module_name_separator'])
+      plugin_name = plugin_name.replace("/", config['plugin_name_separator']).replace("\\", config['plugin_name_separator'])
 
 
-    plugin_file= os.path.join(plugin_dir,plugin_ini_fname)
+    plugin_file= os.path.join(plugin_dir,config['plugin_ini_fname'])
     plugin_defaults= dict(sources="%s.cc" % short_name,
                           headers="",
                           install_headers="",
@@ -398,7 +400,7 @@ def read_plugin_ini(plugin_dir):
                           static="False",
                           dependencies="",
                           dependency_aliases="",
-                          install=default_install)
+                          install=config['default_install'])
     parser=ConfigParser.ConfigParser(defaults= plugin_defaults)
     parser.read(plugin_file)
     plugin=dict(parser.items('plugin'))
@@ -412,7 +414,7 @@ def read_plugin_ini(plugin_dir):
         print "External Plugins are required to specifiy a version"
         sys.exit(1)
     if not plugin.has_key('version'):
-      plugin['version'] = default_plugin_version
+      plugin['version'] = config['default_plugin_version']
    
     if plugin.has_key('load_by_default'):
       plugin['load_by_default']=parser.getboolean('plugin','load_by_default')
@@ -437,18 +439,20 @@ def read_plugin_ini(plugin_dir):
       else:
         plugin['testsuite']=False
 
-    plugin['cflags']+= extra_cflags
-    plugin['cppflags']+= extra_cppflags
-    plugin['cxxflags']+= extra_cxxflags
+    plugin['cflags']+= ' ' + config['extra_cflags']
+    plugin['cppflags']+= ' ' + config['extra_cppflags']
+    plugin['cxxflags']+= ' ' + config['extra_cxxflags']
 
-    plugin['libname']= "lib%s%s%s" % (plugin_prefix, plugin['name'], plugin_suffix)
-    if force_lowercase_libname:
+    plugin['libname']= "lib%s%s%s" % (config['plugin_prefix'],
+                                      plugin['name'],
+                                      config['plugin_suffix'])
+    if config['force_lowercase_libname']:
       plugin['libname']= plugin['libname'].lower()
 
-    plugin['root_plugin_dir']= root_plugin_dir
-    plugin['plugin_prefix']= plugin_prefix
-    plugin['plugin_suffix']= plugin_suffix
-    plugin['pkgplugindir']= pkgplugindir
+    plugin['root_plugin_dir']= config['root_plugin_dir']
+    plugin['plugin_prefix']= config['plugin_prefix']
+    plugin['plugin_suffix']= config['plugin_suffix']
+    plugin['pkgplugindir']= config['pkgplugindir']
 
     # Dependencies must have a module but dependency aliases are simply added
     # to the variable passed during compile.
@@ -532,16 +536,43 @@ endif
   if os.path.exists(plugin_am_file):
     plugin_am.write('include %s\n' % plugin_am_file)
 
-#MAIN STARTS HERE:
+#
+# MAIN STARTS HERE:
+#
+
+# Parse the pandora-plugin config file
+
+config_defaults= dict(
+  top_srcdir='.',
+  top_builddir='.',
+  plugin_ini_fname='plugin.ini',
+  plugin_prefix='',
+  plugin_suffix='',
+  extra_cflags='',
+  extra_cppflags='',
+  extra_cxxflags='',
+  root_plugin_dir='',
+  pkgplugindir='',
+  default_install='True',
+  default_plugin_version='',
+  force_lowercase_libname='True',
+  plugin_name_separator='_',
+  module_name_separator='::'
+)
+
+config_parser = ConfigParser.ConfigParser(defaults=config_defaults)
+config_parser.read(pandora_plugin_file)
+config = dict(config_parser.items('pandora-plugin'))
+config['force_lowercase_libname']=config_parser.getboolean('pandora-plugin','force_lowercase_libname')
 
 # I'm 3 seconds away from writing a comprehensive build solution
 if not os.path.exists('config/pandora_vc_revinfo'):
   if os.path.exists('.bzr'):
     bzr_revno= subprocess.Popen(["bzr", "revno"], stdout=subprocess.PIPE).communicate()[0].strip()
     rev_date= datetime.date.fromtimestamp(time.time())
-    default_plugin_version = "%d.%02d.%s" % (rev_date.year, rev_date.month, bzr_revno)
+    config['default_plugin_version'] = "%d.%02d.%s" % (rev_date.year, rev_date.month, bzr_revno)
   else:
-    default_plugin_version=datetime.date.fromtimestamp(time.time()).isoformat()
+    config['default_plugin_version']=datetime.date.fromtimestamp(time.time()).isoformat()
 else:
   # need to read config/pandora_vc_revno
   pandora_vc_revno=open('config/pandora_vc_revinfo','r').read().split()
@@ -554,14 +585,14 @@ else:
     elif revno_key == 'PANDORA_RELEASE_DATE':
       rev_date=revno_val.strip()
 
-  default_plugin_version = "%s.%s" % (rev_date, bzr_revno)
+  config['default_plugin_version'] = "%s.%s" % (rev_date, bzr_revno)
 
 actions=[]
 for arg in sys.argv:
   if arg.startswith('--top_srcdir='):
-    top_srcdir=arg[12:]
+    config['top_srcdir']=arg[12:]
   elif arg.startswith('--top_builddir='):
-    top_builddir=arg[14:]
+    config['top_builddir']=arg[14:]
   elif arg == "--force-all":
     actions=['plugin-list','pandora-plugin.am','write']
     break
@@ -570,11 +601,17 @@ for arg in sys.argv:
 if len(actions) == 0:
   actions.append('write')
 
+plugin_list=[]
+
 def accumulate_plugins(arg, dirname, fnames):
   # plugin_ini_fname is a name in dirname indicating dirname is a plugin.
-  if plugin_ini_fname in fnames:
+  if config['plugin_ini_fname'] in fnames:
     arg.append(dirname)
-os.path.walk(os.path.join(top_srcdir,root_plugin_dir),accumulate_plugins,plugin_list)
+
+os.path.walk(os.path.join(config['top_srcdir'],
+                          config['root_plugin_dir']),
+             accumulate_plugins,
+             plugin_list)
 
 
 if not os.path.exists("config/pandora-plugin.am") or "write" in actions:
