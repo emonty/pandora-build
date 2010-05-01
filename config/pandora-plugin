@@ -616,7 +616,7 @@ EXTRA_DIST += \
 	config/pandora-plugin.am \
 	config/pandora-plugin.ac \
 	config/pandora-plugin \
-	config/pandora_plugin_config.py
+	config/pandora-plugin.ini
 
 
 # Seed the list of plugin LDADDS which plugins may extend.
@@ -657,7 +657,7 @@ if not os.path.exists("config/pandora-plugin.am") or 'write' in actions:
     plugin_ini_list.append(plugin)
 
   # Check for duplicates
-  plugin_name_list =  [plugin['libname'] for plugin in plugin_ini_list]
+  plugin_name_list = [plugin['libname'] for plugin in plugin_ini_list]
   for plugin in plugin_ini_list:
     if plugin_name_list.count(plugin['libname']) != 1:
       print "Duplicate module name %s" % plugin['libname']
