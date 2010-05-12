@@ -8,8 +8,6 @@
 AC_INIT([pandora-build],PANDORA_CANONICAL_VERSION, [http://launchpad.net/pandora-build])
 AC_CONFIG_SRCDIR([m4/pandora_canonical.m4])
 AC_CONFIG_AUX_DIR(config)
-AC_CONFIG_MACRO_DIR([m4])
-AC_CONFIG_HEADERS([config.h])
 
 PANDORA_CANONICAL_TARGET
 
