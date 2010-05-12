@@ -10,11 +10,14 @@ ACLOCAL_AMFLAGS= -I m4
 pkgdata_DATA= \
 	config/autorun.sh \
 	config/config.rpath \
+	config/make-lint.py \
 	config/pandora-plugin \
+	config/pandora-plugin.ini \
 	config/uncrustify.cfg \
 	m4/lib-ld.m4 \
 	m4/lib-link.m4 \
 	m4/lib-prefix.m4
+
 
 aclocaldir= $(datadir)/aclocal
 aclocal_DATA= \
