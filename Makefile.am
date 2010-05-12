@@ -37,7 +37,6 @@ aclocal_DATA= \
 	m4/pandora_have_better_malloc.m4 \
 	m4/pandora_have_boost.m4 \
 	m4/pandora_have_gcc_atomics.m4 \
-	m4/pandora_have_innodb.m4 \
 	m4/pandora_have_libavahi.m4 \
 	m4/pandora_have_libbdb.m4 \
 	m4/pandora_have_libboost_options.m4 \
@@ -74,7 +73,6 @@ aclocal_DATA= \
 	m4/pandora_run_cpplint.m4 \
 	m4/pandora_sasl.m4 \
 	m4/pandora_shared_ptr.m4 \
-	m4/pandora_stack_direction.m4 \
 	m4/pandora_stl_hash.m4 \
 	m4/pandora_swig.m4 \
 	m4/pandora_use_pipe.m4 \
@@ -93,4 +91,4 @@ aclocal_DATA= \
 	m4/pandora_with_ruby.m4
 
 
-EXTRA_DIST= ${aclocal_DATA} ${pandora_DATA}
+EXTRA_DIST= ${aclocal_DATA} ${pkgdata_DATA}
