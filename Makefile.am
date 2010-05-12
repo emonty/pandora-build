@@ -7,7 +7,7 @@
 
 ACLOCAL_AMFLAGS= -I m4
 
-pkgdata_DATA= \
+nobase_pkgdata_DATA= \
 	config/autorun.sh \
 	config/config.rpath \
 	config/pandora-plugin \
@@ -90,4 +90,4 @@ aclocal_DATA= \
 	m4/pandora_with_ruby.m4
 
 
-EXTRA_DIST= ${aclocal_DATA} ${pkgdata_DATA}
+EXTRA_DIST= ${aclocal_DATA} ${nobase_pkgdata_DATA}
