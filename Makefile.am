@@ -13,6 +13,7 @@ nobase_pkgdata_DATA= \
 	config/pandora-plugin \
 	config/pandora-plugin.ini \
 	config/uncrustify.cfg \
+	m4/gettext.m4 \
 	m4/lib-ld.m4 \
 	m4/lib-link.m4 \
 	m4/lib-prefix.m4
