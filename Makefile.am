@@ -149,5 +149,7 @@ nobase_data_DATA= \
 		  quickly/templates/pandora-build-c/project_root_application/bin/project_name.c \
 		  quickly/templates/pandora-build-c/project_root_library/Makefile.am
 
+install-data-hook:
+	-chmod ugo+x $(DESTDIR)$(datadir)/quickly/templates/pandora-build/*py
 
 EXTRA_DIST= ${aclocal_DATA} ${nobase_pkgdata_DATA} ${nobase_data_DATA}
