@@ -91,6 +91,7 @@ aclocal_DATA= \
 	m4/pandora_with_ruby.m4
 
 nobase_data_DATA= \
+		  quickly/templates/drizzle-plugin/commandsconfig \
 		  quickly/templates/drizzle-plugin/project_root/AUTHORS \
 		  quickly/templates/drizzle-plugin/project_root/module.cc \
 		  quickly/templates/drizzle-plugin/project_root/plugin.ini \
