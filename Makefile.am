@@ -100,12 +100,7 @@ nobase_data_DATA= \
 		  quickly/templates/drizzle-plugin/project_root/tests/r/basic.result \
 		  quickly/templates/drizzle-plugin/project_root/tests/t/basic.test \
 		  quickly/templates/drizzle-plugin/project_root/tests/t/master.opt \
-		  quickly/templates/pandora-build/available_licenses/header_BSD \
-		  quickly/templates/pandora-build/available_licenses/header_GPL-2 \
-		  quickly/templates/pandora-build/available_licenses/header_GPL-3 \
-		  quickly/templates/pandora-build/available_licenses/header_LGPL-2 \
-		  quickly/templates/pandora-build/available_licenses/header_LGPL-3 \
-		  quickly/templates/pandora-build/available_licenses/header_MIT \
+		  quickly/templates/pandora-build/add.py \
 		  quickly/templates/pandora-build/commandsconfig \
 		  quickly/templates/pandora-build/create.py \
 		  quickly/templates/pandora-build/internal/__init__.py \
