@@ -9,7 +9,7 @@
 #
 
 AC_INIT([project_name],[0.1],[https://bugs.launchpad.net/project_name])
-AC_CONFIG_SRCDIR([project_name/project_name.h])
+AC_CONFIG_SRCDIR([project_name/class_name.h])
 AC_CONFIG_AUX_DIR(config)
 AC_CONFIG_MACRO_DIR([m4])
 

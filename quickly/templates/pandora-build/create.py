@@ -22,7 +22,7 @@ import os
 import shutil
 import subprocess
 
-from quickly import templatetools, configurationhandler
+from quickly import templatetools, configurationhandler, tools
 from internal import quicklyutils, naming, pandoramacros
 
 import gettext
@@ -30,25 +30,16 @@ from gettext import gettext as _
 # set domain text
 gettext.textdomain('quickly')
 
+project_root_prefix = "project_root_"
 
 
 def help():
     print _("""Usage:
-$ quickly create drizzle-plugin plugin_name
+$ quickly create pandora-build project_name project_type
 
-where "plugin_name" is one or more words separated by an underscore and
-path/to can be any existing path.
+where "project_name" is the name of the project to create.
 
-This will create a new plugin dir with the initial skeleton files needed.
-This will create and run a new project, including Python code, 
-Glade files, and packaging files to make the project work. After
-creating the project, get started by:
-
-1. Changing your working directory to the new project:
-$ cd plugin/plugin_name
-
-3. Edit your code:
-$ quickly edit
+This will create a new project dir with the initial skeleton files needed.
 """)
 templatetools.handle_additional_parameters(sys.argv, help)
 
@@ -57,7 +48,7 @@ templatetools.handle_additional_parameters(sys.argv, help)
 if len(sys.argv) < 2:
     print _("""Project name not defined.\n""")
 if len(sys.argv) < 3:
-    print _("""Plugin Type not defined.\nUsage is quickly create drizzle-plugin plugin_name plugin_type""")
+    print _("""Plugin Type not defined.\nUsage is quickly create pandora-build plugin_name plugin_type""")
     sys.exit(4)
 
 path_and_project = sys.argv[1].split('/')
@@ -75,14 +66,29 @@ except templatetools.bad_project_name, e:
     print(e)
     sys.exit(1)
 
+
+include_guard_names = []
+include_guard_names.append(names.all_caps_name)
+include_guard_names.append(names.all_caps_name)
+include_guard_names.append("H")
+include_guard = "_".join(include_guard_names)
+
+open_namespace = "namespace %s\n{" % names.project_name
+close_namespace = "} /* namespace %s */" % names.project_name
+
 substitutions = (
             ("type_camel_case_name",type_names.camel_case_name),
             ("type_sentence_name",type_names.sentence_name),
             ("plugin_type",type_names.project_name),
+            ("include_guard", include_guard),
+            ("all_caps_project_name", names.all_caps_name),
             ("project_name",names.project_name),
             ("camel_case_name",names.camel_case_name),
             ("sentence_name",names.sentence_name),
             ("all_caps_name",names.all_caps_name),
+            ("class_name",names.project_name),
+            ("open_namespace",open_namespace),
+            ("close_namespace",close_namespace),
             )
 
 
@@ -92,7 +98,7 @@ os.chdir(names.base_name)
 pathname = templatetools.get_template_path_from_project()
 abs_path_project_root = os.path.join(pathname, 'project_root')
 
-for abs_path_project_root in [os.path.join(pathname, f) for f in ('project_root', 'project_root_%s' % type_names.project_name)]:
+for abs_path_project_root in [os.path.join(pathname, f) for f in ('project_root', '%s%s' % (project_root_prefix, type_names.project_name))]:
     if os.path.isdir(abs_path_project_root):
         for root, dirs, files in os.walk(abs_path_project_root):
             try:

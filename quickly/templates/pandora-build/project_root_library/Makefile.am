@@ -31,18 +31,18 @@ EXTRA_DIST = \
 lib_LTLIBRARIES += libproject_name.la
 
 libproject_name_la_SOURCES = \
-  project_name/project_name.cc
+  project_name/class_name.cc
 
 nobase_include_HEADERS += \
-  project_name/project_name.h \
+  project_name/class_name.h \
   project_name/visibility.h
 
 libproject_name_la_CXXFLAGS = \
 	$(AM_CXXFLAGS) \
-	-DBUILDING_all_caps_name
+	-DBUILDING_all_caps_project_name
 
 libproject_name_la_LIBADD = $(LIBDL_LIBS)
-libproject_name_la_LDFLAGS = $(AM_LDFLAGS) -version-info $(LIBall_caps_name_VERSION)
+libproject_name_la_LDFLAGS = $(AM_LDFLAGS) -version-info $(LIBall_caps_project_name_VERSION)
 
 check_PROGRAMS += \
   project_name/test/basic
@@ -58,28 +58,28 @@ TESTS = $(check_PROGRAMS)
 TESTS_ENVIRONMENT = ${top_srcdir}/test_run.sh
 
 check-verbose:
-	@all_caps_name_TEST_ARGS="v" make check
+	@all_caps_project_name_TEST_ARGS="v" make check
 
 check-debug:
-	@all_caps_name_TEST_ARGS="vvv" make check
+	@all_caps_project_name_TEST_ARGS="vvv" make check
 
 check-valgrind:
-	@all_caps_name_TEST_PREFIX="valgrind -q --leak-check=full --show-reachable=yes --suppressions=valgrind.suppressions" make check
+	@all_caps_project_name_TEST_PREFIX="valgrind -q --leak-check=full --show-reachable=yes --suppressions=valgrind.suppressions" make check
 
 check-valgrind-debug:
-	@all_caps_name_TEST_PREFIX="valgrind -q --leak-check=full --show-reachable=yes --suppressions=valgrind.suppressions" all_caps_name_TEST_ARGS="vvv" make check
+	@all_caps_project_name_TEST_PREFIX="valgrind -q --leak-check=full --show-reachable=yes --suppressions=valgrind.suppressions" all_caps_project_name_TEST_ARGS="vvv" make check
 
 check-gdb:
-	@all_caps_name_TEST_PREFIX="gdb -q" make check
+	@all_caps_project_name_TEST_PREFIX="gdb -q" make check
 
 check-time:
-	@all_caps_name_TEST_PREFIX="/usr/bin/time" make check
+	@all_caps_project_name_TEST_PREFIX="/usr/bin/time" make check
 
 check-strace:
-	@all_caps_name_TEST_PREFIX="strace -c" make check
+	@all_caps_project_name_TEST_PREFIX="strace -c" make check
 
 check-truss:
-	@all_caps_name_TEST_PREFIX="truss -c" make check
+	@all_caps_project_name_TEST_PREFIX="truss -c" make check
 
 docs: all
 	@echo "/**" > docs/mainpage.h

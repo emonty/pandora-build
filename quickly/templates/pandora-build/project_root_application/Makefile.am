@@ -31,10 +31,10 @@ EXTRA_DIST = \
 lib_LTLIBRARIES += libproject_name.la
 
 libproject_name_la_SOURCES = \
-  project_name/project_name.cc
+  project_name/class_name.cc
 
 nobase_include_HEADERS += \
-  project_name/project_name.h \
+  project_name/class_name.h \
   project_name/visibility.h
 
 libproject_name_la_CXXFLAGS = \

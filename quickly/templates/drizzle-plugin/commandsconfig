@@ -6,6 +6,6 @@ COMMANDS_LAUNCHED_IN_OR_OUTSIDE_PROJECT = tutorial
 COMMANDS_LAUNCHED_OUTSIDE_PROJECT_ONLY = create
 COMMANDS_FOLLOWED_BY_COMMAND = 
 
-[pandora-build-cxx]
-IMPORT=configure;create;debug;edit;license;package;release;run;save;share
+[pandora-build]
+IMPORT=add;create;debug;edit;license;package;release;run;save;share
 

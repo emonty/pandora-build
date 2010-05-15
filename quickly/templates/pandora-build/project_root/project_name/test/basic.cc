@@ -5,14 +5,14 @@
 
 #include <cassert>
 
-#include <project_name/project_name.h>
+#include <project_name/class_name.h>
 
 /**
  * @TODO Actually write a real test suite here
  */
 int main(int, char **)
 {
-  project_name::project_name test_project_name("test_project_name");
+  project_name::class_name test_class_name("test_class_name");
   assert(true);
   return 0;
 }

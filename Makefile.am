@@ -117,8 +117,8 @@ nobase_data_DATA= \
 		  quickly/templates/pandora-build/project_root/configure.ac \
 		  quickly/templates/pandora-build/project_root/docs/Doxyfile \
 		  quickly/templates/pandora-build/project_root/docs/header.html.in \
-		  quickly/templates/pandora-build/project_root/project_name/project_name.cc \
-		  quickly/templates/pandora-build/project_root/project_name/project_name.h \
+		  quickly/templates/pandora-build/project_root/project_name/class_name.cc \
+		  quickly/templates/pandora-build/project_root/project_name/class_name.h \
 		  quickly/templates/pandora-build/project_root/project_name/test/basic.cc \
 		  quickly/templates/pandora-build/project_root/project_name/visibility.h \
 		  quickly/templates/pandora-build/project_root/test_run.sh \
