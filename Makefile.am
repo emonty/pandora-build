@@ -106,6 +106,7 @@ nobase_data_DATA= \
 		  quickly/templates/pandora-build/available_licenses/header_LGPL-2 \
 		  quickly/templates/pandora-build/available_licenses/header_LGPL-3 \
 		  quickly/templates/pandora-build/available_licenses/header_MIT \
+		  quickly/templates/pandora-build/add.py \
 		  quickly/templates/pandora-build/commandsconfig \
 		  quickly/templates/pandora-build/create.py \
 		  quickly/templates/pandora-build/internal/__init__.py \
