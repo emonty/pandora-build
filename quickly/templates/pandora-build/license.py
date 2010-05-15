@@ -76,14 +76,24 @@ launchpad account if you didn't update it.
 def get_supported_licenses():
     """Get supported licenses"""
 
-    return os.listdir("/usr/share/common-licenses")
+    available_licenses = []
+    
+    for license_file in os.listdir(os.path.dirname(__file__) + "/available_licenses"):
+        result = re.split("header_(.*)", license_file)
+        if len(result) == 3:
+            available_licenses.append(result[1])
+ 
+    return available_licenses
     
 def get_plugin_ini_value(opt):
     """Pull a value from plugin.ini"""
-    parser=ConfigParser.ConfigParser()
-    parser.read('plugin.ini')
-    plugin=dict(parser.items('plugin'))
-    return plugin.get(opt, None)
+    if os.path.exists('plugin.ini'):
+        parser=ConfigParser.ConfigParser()
+        parser.read('plugin.ini')
+        plugin=dict(parser.items('plugin'))
+        return plugin.get(opt, None)
+    else:
+        return None
 
 def prefix_license(old_license, license_prefix):
     """Return the license modified to have a line prefix"""
@@ -163,7 +173,7 @@ def licensing(license=None):
     if license is None:
         license = get_plugin_ini_value('license')
     if license is None or license == '':
-        license = 'GPL-2'
+        license = 'GPL'
     if license == 'PLUGIN_LICENSE_GPL':
         license = 'GPL-2'
     if license == 'PLUGIN_LICENSE_BSD':
@@ -201,7 +211,7 @@ def licensing(license=None):
     # check that COPYING file is provided if using a personal license
     supported_licenses_list = get_supported_licenses()
     if license in supported_licenses_list:
-        header_file_path = "/usr/share/common-licenses/" + license
+        header_file_path = os.path.dirname(__file__) + "/available_licenses/header_" + license
     else:
         header_file_path = flicense_name
     try:

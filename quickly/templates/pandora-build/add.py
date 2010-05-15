@@ -28,8 +28,6 @@ from gettext import gettext as _
 # set domain text
 gettext.textdomain('quickly')
 
-print sys.argv, os.getcwd()
-
 def help():
     print _("""Usage:
 $ quickly add [class_name]
@@ -54,8 +52,6 @@ templatetools.handle_additional_parameters(sys.argv, help)
 abs_template_path = templatetools.get_template_path_from_project()
 abs_command_path = os.path.abspath(os.path.dirname(sys.argv[0]))
 
-print abs_template_path
-
 
 if len(sys.argv) < 2:
     print _("add command needs to be followed an action name.\n"
@@ -63,7 +59,6 @@ if len(sys.argv) < 2:
     sys.exit(4)
 
 path_and_project = sys.argv[1].split('::')
-print "path_and_project", path_and_project
 
 if not configurationhandler.project_config:
     configurationhandler.loadConfig()
@@ -94,7 +89,6 @@ if (len(path_and_project) == 1):
     namespace_elems = [project_name]
 else:
     namespace_elems = path_and_project[:-1]
-print namespace_elems
     
 for namespace_elem in namespace_elems:
     namespace_naming = naming.naming_context(namespace_elem)
