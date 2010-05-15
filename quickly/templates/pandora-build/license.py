@@ -76,14 +76,7 @@ launchpad account if you didn't update it.
 def get_supported_licenses():
     """Get supported licenses"""
 
-    available_licenses = []
-    
-    for license_file in os.listdir(os.path.dirname(__file__) + "/available_licenses"):
-        result = re.split("header_(.*)", license_file)
-        if len(result) == 3:
-            available_licenses.append(result[1])
- 
-    return available_licenses
+    return os.listdir("/usr/share/common-licenses")
     
 def get_plugin_ini_value(opt):
     """Pull a value from plugin.ini"""
@@ -110,9 +103,9 @@ def copy_license_to_files(license_content):
     # open each python file and main bin file
     for root, dirs, files in os.walk('./'):
         for name in files:
-            if name.endswith('.py') or
-              name.endswith('.h') or name.endswith('.hh') or
-              name.endswith('.c') or name.endswith('.cc') or
+            if name.endswith('.py') or \
+              name.endswith('.h') or name.endswith('.hh') or \
+              name.endswith('.c') or name.endswith('.cc') or \
               name.endswith('.am') or name.endswith('ac'):
                 skip_until_end_found = False
                 try:
@@ -208,7 +201,7 @@ def licensing(license=None):
     # check that COPYING file is provided if using a personal license
     supported_licenses_list = get_supported_licenses()
     if license in supported_licenses_list:
-        header_file_path = os.path.dirname(__file__) + "/available_licenses/header_" + license
+        header_file_path = "/usr/share/common-licenses/" + license
     else:
         header_file_path = flicense_name
     try:
