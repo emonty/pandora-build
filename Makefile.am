@@ -46,6 +46,7 @@ aclocal_DATA= \
 	m4/pandora_have_libevent.m4 \
 	m4/pandora_have_libgearman.m4 \
 	m4/pandora_have_libgtest.m4 \
+	m4/pandora_have_libhashkit.m4 \
 	m4/pandora_have_libinnodb.m4 \
 	m4/pandora_have_libldap.m4 \
 	m4/pandora_have_libmemcached.m4 \
@@ -57,6 +58,7 @@ aclocal_DATA= \
 	m4/pandora_have_libsqlite3.m4 \
 	m4/pandora_have_libtokyocabinet.m4 \
 	m4/pandora_have_libuuid.m4 \
+	m4/pandora_have_libvbucket.m4 \
 	m4/pandora_have_libxml2.m4 \
 	m4/pandora_have_libz.m4 \
 	m4/pandora_have_protobuf.m4 \
