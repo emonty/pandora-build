@@ -169,14 +169,11 @@ def licensing(license=None):
     project_name = configurationhandler.project_config['project']
     python_name = templatetools.python_name(project_name)
 
-    # check if we have a license tag in setup.py otherwise, default to GPL-3
+    # check if we have a license tag in plugin.ini otherwise, default to GPL-3
     if license is None:
-        try:
-            license = quicklyutils.get_setup_value('license')
-        except quicklyutils.cant_deal_with_setup_value:
-            license = get_plugin_ini_value('license')
+        license = get_plugin_ini_value('license')
     if license is None or license == '':
-        license = 'GPL-3'
+        license = 'GPL'
     if license == 'PLUGIN_LICENSE_GPL':
         license = 'GPL-2'
     if license == 'PLUGIN_LICENSE_BSD':
@@ -226,61 +223,6 @@ def licensing(license=None):
         else:
             msg = _("Header of %s license not found. Quickly installation corrupted?") % header_file_path
         raise LicenceError(msg)
-
-    # update license in config.py, setup.py and refresh COPYING if needed
-    try:
-        config_file = '%s/%sconfig.py' % (python_name, python_name)
-        for line in file(config_file, 'r'):
-            fields = line.split(' = ') # Separate variable from value
-            if fields[0] == '__license__' and fields[1].strip() != "'%s'" % license:
-                fin = file(config_file, 'r')
-                fout = file(fin.name + '.new', 'w')
-                for line_input in fin:            
-                    fields = line_input.split(' = ') # Separate variable from value
-                    if fields[0] == '__license__':
-                        line_input = "%s = '%s'\n" % (fields[0], license)
-                    fout.write(line_input)
-                fout.flush()
-                fout.close()
-                fin.close()
-                os.rename(fout.name, fin.name)
-                if license in supported_licenses_list:
-                    src_license_file = "/usr/share/common-licenses/" + license
-                    if os.path.isfile(src_license_file):
-                        shutil.copy("/usr/share/common-licenses/" + license, flicense_name)
-                break
-        try:
-            quicklyutils.set_setup_value('license', license)
-        except quicklyutils.cant_deal_with_setup_value:
-            msg = _("Can't update license in setup.py file\n")
-            raise LicenceError(msg)
-    except (OSError, IOError), e:
-        msg = _("%s/%sconfig.py file not found.") % (python_name, python_name)
-        raise LicenceError(msg)
-
-    # update About dialog, if present:
-    about_dialog_file_name = quicklyutils.get_about_file_name()
-    if about_dialog_file_name:
-        copyright_holders = ""
-        authors_holders = ""
-        # get copyright holders and authors
-        for line in file(fauthors_name, 'r'):
-            if "copyright" in line.lower() or "(c)" in line.lower(): 
-                copyright_holders += line
-                authors_holders += line
-            else:
-                authors_holders += line
-
-        # update without last \n
-        quicklyutils.change_xml_elem(about_dialog_file_name, "object/property",
-                                     "name", "copyright", copyright_holders[:-1],
-                                     {'translatable': 'yes'})
-        quicklyutils.change_xml_elem(about_dialog_file_name, "object/property",
-                                     "name", "authors", authors_holders[:-1],
-                                     {})
-        quicklyutils.change_xml_elem(about_dialog_file_name, "object/property",
-                                     "name", "license", license_content,
-                                     {'translatable': 'yes'})
 
     copy_license_to_files(license_content)
 
