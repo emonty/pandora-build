@@ -107,13 +107,6 @@ nobase_data_DATA= \
 		  quickly/templates/pandora-build-c/project_root/valgrind.suppressions \
 		  quickly/templates/pandora-build-c/project_root_application/Makefile.am \
 		  quickly/templates/pandora-build/add.py \
-		  quickly/templates/pandora-build/available_licenses/header_Apache-2.0 \
-		  quickly/templates/pandora-build/available_licenses/header_BSD \
-		  quickly/templates/pandora-build/available_licenses/header_GPL-2 \
-		  quickly/templates/pandora-build/available_licenses/header_GPL-3 \
-		  quickly/templates/pandora-build/available_licenses/header_LGPL-2 \
-		  quickly/templates/pandora-build/available_licenses/header_LGPL-3 \
-		  quickly/templates/pandora-build/available_licenses/header_MIT \
 		  quickly/templates/pandora-build/commandsconfig \
 		  quickly/templates/pandora-build/create.py \
 		  quickly/templates/pandora-build/drizzle_plugin/AUTHORS \
@@ -126,6 +119,13 @@ nobase_data_DATA= \
 		  quickly/templates/pandora-build/drizzle_plugin/tests/t/master.opt \
 		  quickly/templates/pandora-build/internal/__init__.py \
 		  quickly/templates/pandora-build/internal/apportutils.py \
+		  quickly/templates/pandora-build/internal/available_licenses/header_Apache-2.0 \
+		  quickly/templates/pandora-build/internal/available_licenses/header_BSD \
+		  quickly/templates/pandora-build/internal/available_licenses/header_GPL-2 \
+		  quickly/templates/pandora-build/internal/available_licenses/header_GPL-3 \
+		  quickly/templates/pandora-build/internal/available_licenses/header_LGPL-2 \
+		  quickly/templates/pandora-build/internal/available_licenses/header_LGPL-3 \
+		  quickly/templates/pandora-build/internal/available_licenses/header_MIT \
 		  quickly/templates/pandora-build/internal/bzrutils.py \
 		  quickly/templates/pandora-build/internal/createoradd.py \
 		  quickly/templates/pandora-build/internal/launchpad_helper.py \
