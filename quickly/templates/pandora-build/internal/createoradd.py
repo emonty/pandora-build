@@ -160,7 +160,7 @@ def create_project(argv):
 
     pandora_version = pandoramacros.get_pandora_version()
 
-    licensing.licensing("GPL-2")
+    licensing.licensing("GPL-3")
 
     configurationhandler.loadConfig()
     configurationhandler.project_config['project-type'] = type_names.project_name
