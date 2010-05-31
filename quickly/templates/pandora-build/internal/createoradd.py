@@ -21,9 +21,10 @@ import sys
 import os
 import shutil
 import subprocess
+import datetime
 
 from quickly import templatetools, configurationhandler, tools
-from internal import quicklyutils, naming, pandoramacros
+from internal import quicklyutils, naming, pandoramacros, licensing
 
 import gettext
 from gettext import gettext as _
@@ -60,8 +61,13 @@ def _create_project(names, type_names, project_type="project_root"):
     open_namespace = "namespace %s\n{" % names.project_name
     close_namespace = "} /* namespace %s */" % names.project_name
 
+    author_name = "Your Name"
+    full_copyright_line = "YYYY <Your Name> <Your E-mail>"
     bzr_whoami = subprocess.Popen(["bzr","whoami"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     bzr_output, bzr_errors= bzr_whoami.communicate()
+    if bzr_output.find('.', bzr_output.find('@')) != -1:
+        author_name = bzr_output.strip()
+        full_copyright_line = "%s %s" % (datetime.datetime.now().year, author_name) 
 
     substitutions = (
                 ("type_camel_case_name",type_names.camel_case_name),
@@ -76,7 +82,8 @@ def _create_project(names, type_names, project_type="project_root"):
                 ("class_name",names.project_name),
                 ("open_namespace",open_namespace),
                 ("close_namespace",close_namespace),
-                ("author_name",bzr_output.strip()),
+                ("author_name",author_name),
+                ("full_copyright_line",full_copyright_line),
                 )
 
 
@@ -152,6 +159,8 @@ def create_project(argv):
         pass
 
     pandora_version = pandoramacros.get_pandora_version()
+
+    licensing.licensing("GPL-2")
 
     configurationhandler.loadConfig()
     configurationhandler.project_config['project-type'] = type_names.project_name

@@ -128,6 +128,7 @@ nobase_data_DATA= \
 		  quickly/templates/pandora-build/internal/bzrutils.py \
 		  quickly/templates/pandora-build/internal/createoradd.py \
 		  quickly/templates/pandora-build/internal/launchpad_helper.py \
+		  quickly/templates/pandora-build/internal/licensing.py \
 		  quickly/templates/pandora-build/internal/naming.py \
 		  quickly/templates/pandora-build/internal/packaging.py \
 		  quickly/templates/pandora-build/internal/pandoramacros.py \
