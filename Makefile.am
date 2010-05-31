@@ -107,6 +107,7 @@ nobase_data_DATA= \
 		  quickly/templates/pandora-build-c/project_root/valgrind.suppressions \
 		  quickly/templates/pandora-build-c/project_root_application/Makefile.am \
 		  quickly/templates/pandora-build/add.py \
+		  quickly/templates/pandora-build/available_licenses/header_Apache-2.0 \
 		  quickly/templates/pandora-build/available_licenses/header_BSD \
 		  quickly/templates/pandora-build/available_licenses/header_GPL-2 \
 		  quickly/templates/pandora-build/available_licenses/header_GPL-3 \
