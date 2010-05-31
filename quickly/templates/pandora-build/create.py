@@ -23,7 +23,7 @@ import shutil
 import subprocess
 
 from quickly import templatetools, configurationhandler, tools
-from internal import quicklyutils, naming, pandoramacros
+from internal import quicklyutils, naming, pandoramacros, createoradd
 
 import gettext
 from gettext import gettext as _
@@ -51,74 +51,7 @@ if len(sys.argv) < 3:
     print _("""Plugin Type not defined.\nUsage is quickly create pandora-build plugin_name plugin_type""")
     sys.exit(4)
 
-path_and_project = sys.argv[1].split('/')
-
-names = None
-type_names = None
-# check that project name follow quickly rules and reformat it.
-# TODO: need to handle input in the form of StoragEngine and turn it in to
-#  storage_engine, Storage Engine, STORAGE_ENGINE and StorageEngine
-#  respectively
-try:
-    names = naming.naming_context(path_and_project[-1])
-    type_names = naming.naming_context(sys.argv[2])
-except templatetools.bad_project_name, e:
-    print(e)
-    sys.exit(1)
-
-
-include_guard_names = []
-include_guard_names.append(names.all_caps_name)
-include_guard_names.append(names.all_caps_name)
-include_guard_names.append("H")
-include_guard = "_".join(include_guard_names)
-
-open_namespace = "namespace %s\n{" % names.project_name
-close_namespace = "} /* namespace %s */" % names.project_name
-
-substitutions = (
-            ("type_camel_case_name",type_names.camel_case_name),
-            ("type_sentence_name",type_names.sentence_name),
-            ("plugin_type",type_names.project_name),
-            ("include_guard", include_guard),
-            ("all_caps_project_name", names.all_caps_name),
-            ("project_name",names.project_name),
-            ("camel_case_name",names.camel_case_name),
-            ("sentence_name",names.sentence_name),
-            ("all_caps_name",names.all_caps_name),
-            ("class_name",names.project_name),
-            ("open_namespace",open_namespace),
-            ("close_namespace",close_namespace),
-            )
-
-
-os.chdir(names.base_name)
-
-# get origin path
-pathname = templatetools.get_template_path_from_project()
-abs_path_project_root = os.path.join(pathname, 'project_root')
-
-for abs_path_project_root in [os.path.join(pathname, f) for f in ('project_root', '%s%s' % (project_root_prefix, type_names.project_name))]:
-    if os.path.isdir(abs_path_project_root):
-        for root, dirs, files in os.walk(abs_path_project_root):
-            try:
-                relative_dir = root.split('%s/' % abs_path_project_root)[1]
-            except:
-                relative_dir = ""
-            # python dir should be replace by python (project "pythonified" name)
-            if relative_dir.startswith('project_name'):
-                relative_dir = relative_dir.replace('project_name', names.project_name)
-         
-            for directory in dirs:
-                if directory == 'project_name':
-                    directory = names.project_name
-                try:
-                    os.mkdir(os.path.join(relative_dir, directory))
-                except OSError:
-                    # We don't care - we may be merging dirs
-                    pass
-            for filename in files:
-                quicklyutils.file_from_template(root, filename, relative_dir, substitutions)
+createoradd.create_project(sys.argv[1:])
 
 try:
     os.mkdir("m4")
