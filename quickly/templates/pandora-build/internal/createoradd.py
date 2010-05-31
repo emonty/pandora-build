@@ -136,7 +136,23 @@ def create_project(argv):
     os.chdir(names.base_name)
 
     _create_project(names, type_names)
+    try:
+        os.mkdir("m4")
+    except OSError:
+        pass
+
+    pandoramacros.copy_pandora_files()
+        
+    try:
+        os.chmod("config/autorun.sh", 0755)
+        os.chmod("config/pandora-plugin", 0755)
+        os.chmod("config/config.rpath", 0755)
+        os.chmod("test_run.sh", 0755)
+    except:
+        pass
+
     pandora_version = pandoramacros.get_pandora_version()
+
     configurationhandler.loadConfig()
     configurationhandler.project_config['project-type'] = type_names.project_name
     configurationhandler.project_config['pandora-version'] = pandora_version

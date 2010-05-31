@@ -54,20 +54,6 @@ if len(sys.argv) < 3:
 
 createoradd.create_project(sys.argv[1:])
 
-try:
-    os.mkdir("m4")
-except OSError:
-    pass
-
-pandoramacros.copy_pandora_files()
-    
-try:
-    os.chmod("config/autorun.sh", 0755)
-    os.chmod("config/pandora-plugin", 0755)
-    os.chmod("config/config.rpath", 0755)
-    os.chmod("test_run.sh", 0755)
-except:
-    pass
 
 
 # add it to revision control
