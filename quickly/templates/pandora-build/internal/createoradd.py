@@ -135,4 +135,9 @@ def create_project(argv):
     names, type_names = _get_names(argv)
     os.chdir(names.base_name)
 
-    return _create_project(names, type_names)
+    _create_project(names, type_names)
+    pandora_version = pandoramacros.get_pandora_version()
+    configurationhandler.loadConfig()
+    configurationhandler.project_config['project-type'] = type_names.project_name
+    configurationhandler.project_config['pandora-version'] = pandora_version
+    configurationhandler.saveConfig()

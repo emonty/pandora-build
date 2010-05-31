@@ -60,7 +60,6 @@ except OSError:
     pass
 
 pandoramacros.copy_pandora_files()
-pandora_version = pandoramacros.get_pandora_version()
     
 try:
     os.chmod("config/autorun.sh", 0755)
@@ -70,10 +69,6 @@ try:
 except:
     pass
 
-configurationhandler.loadConfig()
-configurationhandler.project_config['project-type'] = type_names.project_name
-configurationhandler.project_config['pandora-version'] = pandora_version
-configurationhandler.saveConfig()
 
 # add it to revision control
 print _("Adding to bzr repository and commiting")
