@@ -203,6 +203,8 @@ if sys.argv[1] == 'class':
     makefile.close()
     os.rename("Makefile.am.new", "Makefile.am")
 elif sys.argv[1] == 'plugin':
+    if len(sys.argv) < 4:
+        sys.argv.append('Plugin')
     plugin_name = createoradd.create_plugin(sys.argv[2:])
     # add it to revision control
     print _("Adding to bzr repository and commiting")
