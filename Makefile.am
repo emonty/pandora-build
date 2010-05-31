@@ -93,24 +93,36 @@ aclocal_DATA= \
 	m4/pandora_with_ruby.m4
 
 nobase_data_DATA= \
-		  quickly/templates/drizzle-plugin/commandsconfig \
-		  quickly/templates/drizzle-plugin/project_root/AUTHORS \
-		  quickly/templates/drizzle-plugin/project_root/module.cc \
-		  quickly/templates/drizzle-plugin/project_root/plugin.ini \
-		  quickly/templates/drizzle-plugin/project_root/project_name.cc \
-		  quickly/templates/drizzle-plugin/project_root/project_name.h \
-		  quickly/templates/drizzle-plugin/project_root/tests/r/basic.result \
-		  quickly/templates/drizzle-plugin/project_root/tests/t/basic.test \
-		  quickly/templates/drizzle-plugin/project_root/tests/t/master.opt \
+		  quickly/templates/pandora-build-c/commandsconfig \
+		  quickly/templates/pandora-build-c/project_root/AUTHORS \
+		  quickly/templates/pandora-build-c/project_root/config/pandora-plugin.ini \
+		  quickly/templates/pandora-build-c/project_root/configure.ac \
+		  quickly/templates/pandora-build-c/project_root/docs/Doxyfile \
+		  quickly/templates/pandora-build-c/project_root/docs/header.html.in \
+		  quickly/templates/pandora-build-c/project_root/project_name/project_name.c \
+		  quickly/templates/pandora-build-c/project_root/project_name/project_name.h \
+		  quickly/templates/pandora-build-c/project_root/project_name/test/basic.c \
+		  quickly/templates/pandora-build-c/project_root/project_name/visibility.h \
+		  quickly/templates/pandora-build-c/project_root/test_run.sh \
+		  quickly/templates/pandora-build-c/project_root/valgrind.suppressions \
+		  quickly/templates/pandora-build-c/project_root_application/Makefile.am \
+		  quickly/templates/pandora-build/add.py \
 		  quickly/templates/pandora-build/available_licenses/header_BSD \
 		  quickly/templates/pandora-build/available_licenses/header_GPL-2 \
 		  quickly/templates/pandora-build/available_licenses/header_GPL-3 \
 		  quickly/templates/pandora-build/available_licenses/header_LGPL-2 \
 		  quickly/templates/pandora-build/available_licenses/header_LGPL-3 \
 		  quickly/templates/pandora-build/available_licenses/header_MIT \
-		  quickly/templates/pandora-build/add.py \
 		  quickly/templates/pandora-build/commandsconfig \
 		  quickly/templates/pandora-build/create.py \
+		  quickly/templates/pandora-build/drizzle_plugin/AUTHORS \
+		  quickly/templates/pandora-build/drizzle_plugin/module.cc \
+		  quickly/templates/pandora-build/drizzle_plugin/plugin.ini \
+		  quickly/templates/pandora-build/drizzle_plugin/project_name.cc \
+		  quickly/templates/pandora-build/drizzle_plugin/project_name.h \
+		  quickly/templates/pandora-build/drizzle_plugin/tests/r/basic.result \
+		  quickly/templates/pandora-build/drizzle_plugin/tests/t/basic.test \
+		  quickly/templates/pandora-build/drizzle_plugin/tests/t/master.opt \
 		  quickly/templates/pandora-build/internal/__init__.py \
 		  quickly/templates/pandora-build/internal/apportutils.py \
 		  quickly/templates/pandora-build/internal/bzrutils.py \
@@ -137,19 +149,6 @@ nobase_data_DATA= \
 		  quickly/templates/pandora-build/run.py \
 		  quickly/templates/pandora-build/tutorial.py \
 		  quickly/templates/pandora-build/upgrade.py \
-		  quickly/templates/pandora-build-c/commandsconfig \
-		  quickly/templates/pandora-build-c/project_root/AUTHORS \
-		  quickly/templates/pandora-build-c/project_root/config/pandora-plugin.ini \
-		  quickly/templates/pandora-build-c/project_root/configure.ac \
-		  quickly/templates/pandora-build-c/project_root/docs/Doxyfile \
-		  quickly/templates/pandora-build-c/project_root/docs/header.html.in \
-		  quickly/templates/pandora-build-c/project_root/project_name/project_name.c \
-		  quickly/templates/pandora-build-c/project_root/project_name/project_name.h \
-		  quickly/templates/pandora-build-c/project_root/project_name/test/basic.c \
-		  quickly/templates/pandora-build-c/project_root/project_name/visibility.h \
-		  quickly/templates/pandora-build-c/project_root/test_run.sh \
-		  quickly/templates/pandora-build-c/project_root/valgrind.suppressions \
-		  quickly/templates/pandora-build-c/project_root_application/Makefile.am \
 		  quickly/templates/pandora-build-c/project_root_application/bin/project_name.c \
 		  quickly/templates/pandora-build-c/project_root_library/Makefile.am
 
