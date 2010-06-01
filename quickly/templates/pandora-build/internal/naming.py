@@ -16,22 +16,27 @@
 #You should have received a copy of the GNU General Public License along 
 #with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from quickly import templatetools
-import quicklyutils
+import re
+
 
 class naming_context(object):
 
+    _name_splitter = re.compile('([A-Z]*[a-z]+)[-_]*')
     def __init__(self, base_name):
         self._base_name = base_name
-    
-        # throws templatetools.bad_project_name, but we're going to let it
-        # propogate
-        self._project_name = templatetools.python_name(templatetools.quickly_name(base_name))
 
+        self._name_list = self._name_splitter.findall(base_name)
 
-        self._all_caps_name = self._project_name.upper()
-        self._sentence_name, self._camel_case_name = quicklyutils.conventional_names(self._project_name)
+        self._project_name = "_".join([f.lower() for f in self._name_list])
 
+        self._all_caps_name = "_".join([f.upper() for f in self._name_list])
+
+        self._sentence_name = " ".join([f.title() for f in self._name_list])
+
+        self._pascal_case_name = "".join([f.title() for f in self._name_list])
+        self._camel_case_name = "".join([self._name_list[0].lower()] + [f.title() for f in self._name_list[1:]])
+
+        
     @property
     def base_name(self):
         return self._base_name
@@ -50,4 +55,4 @@ class naming_context(object):
 
     @property
     def camel_case_name(self):
-        return self._camel_case_name
+        return self._pascal_case_name
