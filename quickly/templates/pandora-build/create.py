@@ -31,7 +31,6 @@ from gettext import gettext as _
 gettext.textdomain('quickly')
 
 project_root_prefix = "project_root_"
-print "ass bandits"
 
 
 def help():

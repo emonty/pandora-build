@@ -27,6 +27,7 @@ class naming_context(object):
 
         self._name_list = self._name_splitter.findall(base_name)
 
+        self._quickly_name = base_name.lower()
         self._project_name = "_".join([f.lower() for f in self._name_list])
 
         self._all_caps_name = "_".join([f.upper() for f in self._name_list])
@@ -56,3 +57,7 @@ class naming_context(object):
     @property
     def camel_case_name(self):
         return self._pascal_case_name
+
+    @property
+    def quickly_name(self):
+        return self._quickly_name

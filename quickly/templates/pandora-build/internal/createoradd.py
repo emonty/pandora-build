@@ -140,7 +140,7 @@ tree""")
     
 def create_project(argv):
     names, type_names = _get_names(argv)
-    os.chdir(names.base_name)
+    os.chdir(names.quickly_name)
 
     _create_project(names, type_names)
     try:
