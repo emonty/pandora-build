@@ -54,6 +54,7 @@ aclocal_DATA= \
 	m4/pandora_have_libndbclient.m4 \
 	m4/pandora_have_libpcre.m4 \
 	m4/pandora_have_libpq.m4 \
+	m4/pandora_have_libpqxx.m4 \
 	m4/pandora_have_libreadline.m4 \
 	m4/pandora_have_libsqlite3.m4 \
 	m4/pandora_have_libtokyocabinet.m4 \
