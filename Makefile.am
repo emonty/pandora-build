@@ -42,6 +42,7 @@ aclocal_DATA= \
 	m4/pandora_have_libboost_options.m4 \
 	m4/pandora_have_libboost_thread.m4 \
 	m4/pandora_have_libcassandra.m4 \
+	m4/pandora_have_libcurl.m4 \
 	m4/pandora_have_libdl.m4 \
 	m4/pandora_have_libdrizzle.m4 \
 	m4/pandora_have_libevent.m4 \
