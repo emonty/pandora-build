@@ -13,7 +13,6 @@ nobase_pkgdata_DATA= \
 	config/pandora-plugin \
 	config/pandora-plugin.ini \
 	config/uncrustify.cfg \
-	m4/gettext.m4 \
 	m4/lib-ld.m4 \
 	m4/lib-link.m4 \
 	m4/lib-prefix.m4
@@ -85,7 +84,6 @@ aclocal_DATA= \
 	m4/pandora_version.m4 \
 	m4/pandora_visibility.m4 \
 	m4/pandora_warnings.m4 \
-	m4/pandora_with_gettext.m4 \
 	m4/pandora_with_lua.m4 \
 	m4/pandora_with_memcached.m4 \
 	m4/pandora_with_perl.m4 \
