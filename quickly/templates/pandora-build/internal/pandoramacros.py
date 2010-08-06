@@ -24,7 +24,6 @@ autoconf_m4=[
   "po.m4",
   "acx_pthread.m4",
   "iconv.m4",
-  "intltool.m4",
   "progtest.m4"]
 
 def copy_pandora_m4(frompath="/usr/share/aclocal/"):

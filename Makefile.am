@@ -67,6 +67,7 @@ aclocal_DATA= \
 	m4/pandora_have_sasl.m4 \
 	m4/pandora_have_thrift.m4 \
 	m4/pandora_header_assert.m4 \
+	m4/pandora_intltool.m4 \
 	m4/pandora_libtool.m4 \
 	m4/pandora_optimize.m4 \
 	m4/pandora_platform.m4 \
