@@ -49,6 +49,7 @@ aclocal_DATA= \
 	m4/pandora_have_libevent.m4 \
 	m4/pandora_have_libgearman.m4 \
 	m4/pandora_have_libgtest.m4 \
+	m4/pandora_have_libhaildb.m4 \
 	m4/pandora_have_libhashkit.m4 \
 	m4/pandora_have_libinnodb.m4 \
 	m4/pandora_have_libldap.m4 \
