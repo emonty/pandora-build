@@ -75,6 +75,15 @@ AC_DEFUN([PANDORA_PLATFORM],[
       AC_DEFINE([TARGET_OS_WINDOWS], [1], [Whether we are building for Windows])
       AC_DEFINE([WINVER], [WindowsXP], [Version of Windows])
       AC_DEFINE([_WIN32_WINNT], [0x0501], [Magical number to make things work])
+      AC_DEFINE([EAI_SYSTEM], [11], [Another magical number])
+      AH_BOTTOM([
+#ifndef HAVE_SYS_SOCKET_H
+# define SHUT_RD SD_RECEIVE
+# define SHUT_WR SD_SEND
+# define SHUT_RDWR SD_BOTH
+#endif
+      ])
+
       LIBS="$LIBS -lwsock32 -lws2_32"
       AM_CFLAGS="${AM_CFLAGS} -I\${top_srcdir}/win32 -I\${top_builddir}/win32"
       ;;
