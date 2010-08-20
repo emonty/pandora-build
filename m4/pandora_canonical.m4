@@ -4,7 +4,7 @@ dnl gives unlimited permission to copy and/or distribute it,
 dnl with or without modifications, as long as this notice is preserved.
 
 dnl Which version of the canonical setup we're using
-AC_DEFUN([PANDORA_CANONICAL_VERSION],[0.149])
+AC_DEFUN([PANDORA_CANONICAL_VERSION],[0.150])
 
 AC_DEFUN([PANDORA_FORCE_DEPEND_TRACKING],[
   AC_ARG_ENABLE([fat-binaries],
@@ -234,9 +234,12 @@ AC_DEFUN([PANDORA_CANONICAL_TARGET],[
     GETTEXT_PACKAGE=$PACKAGE
     AC_CHECK_LIB(intl, libintl_gettext)
     AC_SUBST([GETTEXT_PACKAGE])
-    AS_IF([test "x${USE_NLS}" = "xyes"],
-          [AC_DEFINE([ENABLE_NLS],[1],[Turn on language support])])
+    AS_IF([test "x${USE_NLS}" = "xyes" -a "x${pandora_have_intltool}" = "xyes"],
+          [AC_DEFINE([ENABLE_NLS],[1],[Turn on language support])
+           AC_CONFIG_FILES([po/Makefile.in])
+      ])
   ])
+  AM_CONDITIONAL(BUILD_PO,[test "x${USE_NLS}" = "xyes" -a "x${pandora_have_intltool}" = "xyes"])
 
   AS_IF([test "x${gl_LIBOBJS}" != "x"],[
     AS_IF([test "$GCC" = "yes"],[
