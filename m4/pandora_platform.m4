@@ -85,7 +85,7 @@ AC_DEFUN([PANDORA_PLATFORM],[
       ])
 
       LIBS="$LIBS -lwsock32 -lws2_32"
-      AM_CFLAGS="${AM_CFLAGS} -I\${top_srcdir}/win32 -I\${top_builddir}/win32"
+      AM_CFLAGS="${AM_CFLAGS} -I\${top_srcdir}/win32/mingw -I\${top_builddir}/win32/mingw -I\${top_srcdir}/win32 -I\${top_builddir}/win32"
       ;;
   esac
   AM_CONDITIONAL(BUILD_WIN32, [test "x${TARGET_WINDOWS}" = "xtrue"])
