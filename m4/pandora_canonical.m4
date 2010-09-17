@@ -4,7 +4,7 @@ dnl gives unlimited permission to copy and/or distribute it,
 dnl with or without modifications, as long as this notice is preserved.
 
 dnl Which version of the canonical setup we're using
-AC_DEFUN([PANDORA_CANONICAL_VERSION],[0.150])
+AC_DEFUN([PANDORA_CANONICAL_VERSION],[0.151])
 
 AC_DEFUN([PANDORA_FORCE_DEPEND_TRACKING],[
   AC_ARG_ENABLE([fat-binaries],
@@ -204,12 +204,12 @@ AC_DEFUN([PANDORA_CANONICAL_TARGET],[
 
   PANDORA_HAVE_GCC_ATOMICS
 
+  save_CFLAGS="${CFLAGS}"
+  CFLAGS="${CFLAGS} -Werror"
+  PANDORA_CHECK_VISIBILITY
+  CFLAGS="${save_CFLAGS}"
   m4_if(PCT_USE_VISIBILITY,[yes],[
-    dnl We need to inject error into the cflags to test if visibility works or not
-    save_CFLAGS="${CFLAGS}"
-    CFLAGS="${CFLAGS} -Werror"
-    PANDORA_VISIBILITY
-    CFLAGS="${save_CFLAGS}"
+    PANDORA_ENABLE_VISIBILITY
   ])
 
   PANDORA_HEADER_ASSERT
@@ -224,8 +224,10 @@ AC_DEFUN([PANDORA_CANONICAL_TARGET],[
   AC_CHECK_PROGS([DOXYGEN], [doxygen])
   AC_CHECK_PROGS([PERL], [perl])
   AC_CHECK_PROGS([DPKG_GENSYMBOLS], [dpkg-gensymbols], [:])
+  AC_CHECK_PROGS([SPHINXBUILD], [sphinx-build], [:])
 
   AM_CONDITIONAL(HAVE_DPKG_GENSYMBOLS,[test "x${DPKG_GENSYMBOLS}" != "x:"])
+  AM_CONDITIONAL(HAVE_SPHINX,[test "x${SPHINXBUILD}" != "x:"])
 
   m4_if(m4_substr(m4_esyscmd(test -d po && echo 0),0,1),0, [
     AM_PO_SUBDIRS
@@ -260,7 +262,8 @@ AC_DEFUN([PANDORA_CANONICAL_TARGET],[
 #ifndef __CONFIG_H__
 #define __CONFIG_H__
 
-#ifdef _SYS_FEATURE_TESTS_H
+/* _SYS_FEATURE_TESTS_H is Solaris, _FEATURES_H is GCC */
+#if defined( _SYS_FEATURE_TESTS_H) || defined(_FEATURES_H)
 #error "You should include config.h as your first include file"
 #endif
 
