@@ -23,6 +23,12 @@ AC_DEFUN([PANDORA_FORCE_DEPEND_TRACKING],[
   ])
 ])
 
+AC_DEFUN([PANDORA_BLOCK_BAD_OPTIONS],[
+  AS_IF([test "x${prefix}" = "x"],[
+    AC_MSG_ERROR([--prefix requires an argument])
+  ])
+])
+
 dnl The standard setup for how we build Pandora projects
 AC_DEFUN([PANDORA_CANONICAL_TARGET],[
   AC_REQUIRE([PANDORA_FORCE_DEPEND_TRACKING])
@@ -65,6 +71,8 @@ AC_DEFUN([PANDORA_CANONICAL_TARGET],[
   ],[
     AC_CONFIG_HEADERS([config.h])
   ])
+
+  PANDORA_BLOCK_BAD_OPTIONS
 
   # We need to prevent canonical target
   # from injecting -O2 into CFLAGS - but we won't modify anything if we have
