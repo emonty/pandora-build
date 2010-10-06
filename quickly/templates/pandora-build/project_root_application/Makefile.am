@@ -18,6 +18,8 @@ nobase_include_HEADERS =
 noinst_HEADERS =
 pkgplugin_LTLIBRARIES =
 CLEANFILES =
+DISTCLEANFILES = \
+  config/top.h
 EXTRA_DIST = \
   docs/Doxyfile \
   docs/header.html.in \
