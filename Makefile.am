@@ -22,6 +22,7 @@ nobase_pkgdata_DATA= \
 aclocaldir= $(datadir)/aclocal
 aclocal_DATA= \
 	m4/pandora_64bit.m4 \
+	m4/pandora_bison.m4 \
 	m4/pandora_canonical.m4 \
 	m4/pandora_check_compiler_version.m4 \
 	m4/pandora_check_cxx_standard.m4 \
@@ -34,6 +35,7 @@ aclocal_DATA= \
 	m4/pandora_ensure_gcc_version.m4 \
 	m4/pandora_extensions.m4 \
 	m4/pandora_fdatasync.m4 \
+	m4/pandora_flex.m4 \
 	m4/pandora_have_better_malloc.m4 \
 	m4/pandora_have_boost.m4 \
 	m4/pandora_have_gcc_atomics.m4 \
