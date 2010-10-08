@@ -93,17 +93,4 @@ docs: all
 	${DOXYGEN} ${top_srcdir}/docs/Doxyfile
 	@rm docs/mainpage.h
 
-lcov: lcov-clean check
-	@echo
-	@echo "------------------------------------------------------"
-	@echo "Make sure ./configure was run with '--enable-coverage'"
-	@echo "------------------------------------------------------"
-	@echo
-	cd project_name && lcov --directory . --base-directory .. --capture --output-file lcov.out
-	cd project_name && lcov --directory . --base-directory .. --extract lcov.out `pwd`/\* --output-file lcov_extract.out
-	genhtml -o lcov -t project_name project_name/lcov_extract.out
-
-lcov-clean: clean
-	find . -name '*.gcno' -exec rm {} \;
-	find . -name '*.gcda' -exec rm {} \;
-	find . -name 'lcov*.out' -exec rm {} \;
+include config/lcov.am

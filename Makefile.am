@@ -10,6 +10,7 @@ ACLOCAL_AMFLAGS= -I m4
 nobase_pkgdata_DATA= \
 	config/autorun.sh \
 	config/config.rpath \
+	config/lcov.am \
 	config/pandora-plugin \
 	config/pandora-plugin.ini \
 	config/uncrustify.cfg \
