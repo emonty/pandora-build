@@ -43,6 +43,7 @@ aclocal_DATA= \
 	m4/pandora_have_libbdb.m4 \
 	m4/pandora_have_libboost_date_time.m4 \
 	m4/pandora_have_libboost_filesystem.m4 \
+	m4/pandora_have_libboost_iostreams.m4 \
 	m4/pandora_have_libboost_options.m4 \
 	m4/pandora_have_libboost_regex.m4 \
 	m4/pandora_have_libboost_thread.m4 \
