@@ -19,10 +19,7 @@
 import os, shutil
 
 autoconf_m4=[
-  "ac_cxx_header_stdcxx_98.m4",
-  "ac_cxx_compile_stdcxx_0x.m4",
   "po.m4",
-  "acx_pthread.m4",
   "iconv.m4",
   "progtest.m4"]
 

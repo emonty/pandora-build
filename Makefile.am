@@ -28,6 +28,7 @@ aclocal_DATA= \
 	m4/pandora_check_cxx_standard.m4 \
 	m4/pandora_cinttypes.m4 \
 	m4/pandora_clock_gettime.m4 \
+	m4/pandora_compile_stdcxx_0x.m4 \
 	m4/pandora_cstdint.m4 \
 	m4/pandora_cxx_demangle.m4 \
 	m4/pandora_drizzle_build.m4 \
@@ -74,6 +75,7 @@ aclocal_DATA= \
 	m4/pandora_have_sasl.m4 \
 	m4/pandora_have_thrift.m4 \
 	m4/pandora_header_assert.m4 \
+	m4/pandora_header_stdcxx_98.m4 \
 	m4/pandora_intltool.m4 \
 	m4/pandora_libtool.m4 \
 	m4/pandora_optimize.m4 \
