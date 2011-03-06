@@ -40,6 +40,7 @@ aclocal_DATA= \
 	m4/pandora_have_better_malloc.m4 \
 	m4/pandora_have_boost.m4 \
 	m4/pandora_have_gcc_atomics.m4 \
+	m4/pandora_have_libaio.m4 \
 	m4/pandora_have_libavahi.m4 \
 	m4/pandora_have_libbdb.m4 \
 	m4/pandora_have_libboost_date_time.m4 \
@@ -47,6 +48,7 @@ aclocal_DATA= \
 	m4/pandora_have_libboost_iostreams.m4 \
 	m4/pandora_have_libboost_options.m4 \
 	m4/pandora_have_libboost_regex.m4 \
+	m4/pandora_have_libboost_test.m4 \
 	m4/pandora_have_libboost_thread.m4 \
 	m4/pandora_have_libcassandra.m4 \
 	m4/pandora_have_libcurl.m4 \
