@@ -13,7 +13,6 @@ nobase_pkgdata_DATA= \
 	config/lcov.am \
 	config/pandora-plugin \
 	config/pandora-plugin.ini \
-	config/uncrustify.cfg \
 	m4/lib-ld.m4 \
 	m4/lib-link.m4 \
 	m4/lib-prefix.m4
@@ -86,7 +85,6 @@ aclocal_DATA= \
 	m4/pandora_print_callstack.m4 \
 	m4/pandora_pthread.m4 \
 	m4/pandora_python3_devel.m4 \
-	m4/pandora_run_cpplint.m4 \
 	m4/pandora_sasl.m4 \
 	m4/pandora_shared_ptr.m4 \
 	m4/pandora_stl_hash.m4 \
