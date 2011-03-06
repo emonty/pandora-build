@@ -103,7 +103,8 @@ aclocal_DATA= \
 	m4/pandora_with_python.m4 \
 	m4/pandora_with_python3.m4 \
 	m4/pandora_with_r.m4 \
-	m4/pandora_with_ruby.m4
+	m4/pandora_with_ruby.m4 \
+	m4/pandora_with_valgrind.m4
 
 nobase_data_DATA= \
 		  quickly/templates/pandora-build-c/commandsconfig \
