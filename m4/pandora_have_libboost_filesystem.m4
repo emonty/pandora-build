@@ -11,6 +11,9 @@ AC_DEFUN([_PANDORA_SEARCH_BOOST_FILESYSTEM],[
   dnl --------------------------------------------------------------------
 
   AC_LANG_PUSH(C++)
+  AC_DEFINE([BOOST_FILESYSTEM_DEPRECATED], [1],
+            [Use the v2 interface until we can stop using old versions])
+
   AC_LIB_HAVE_LINKFLAGS(boost_filesystem-mt,boost_system-mt,[
     #include <boost/filesystem.hpp>
   ],[
@@ -28,8 +31,6 @@ AC_DEFUN([_PANDORA_SEARCH_BOOST_FILESYSTEM],[
   AM_CONDITIONAL(HAVE_BOOST_FILESYSTEM,
     [test "x${ac_cv_libboost_filesystem}" = "xyes" -o "x${ac_cv_libboost_filesystem_mt}" = "xyes"])
   BOOST_LIBS="${BOOST_LIBS} ${LTLIBBOOST_FILESYSTEM_MT} ${LTLIBBOOST_FILESYSTEM}"
-  AC_DEFINE([BOOST_FILESYSTEM_DEPRECATED], [1],
-            [Use the v2 interface until we can stop using old versions])
   AC_SUBST(BOOST_LIBS) 
 ])
 
@@ -42,6 +43,6 @@ AC_DEFUN([PANDORA_REQUIRE_BOOST_FILESYSTEM],[
   PANDORA_REQUIRE_BOOST($1)
   _PANDORA_SEARCH_BOOST_FILESYSTEM($1)
   AS_IF([test "x${ac_cv_libboost_filesystem}" = "xno" -a "x${ac_cv_libboost_filesystem_mt}" = "xno"],
-      AC_MSG_ERROR([Boost.Filesystem is required for ${PACKAGE}]))
+      PANDORA_MSG_ERROR([Boost.Filesystem is required for ${PACKAGE}]))
 ])
 
