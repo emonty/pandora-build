@@ -23,7 +23,7 @@ import sys
 
 import internal.apportutils
 
-from internal import quicklyutils, pandoramacros, naming
+from internal import quicklyutils, pandoramacros, naming, vc
 from quickly import configurationhandler, templatetools, tools
 
 import gettext
@@ -88,16 +88,8 @@ except:
 configurationhandler.project_config['pandora-version'] = new_pandora_version
 configurationhandler.saveConfig()
 
-bzr_cmd = ["bzr", "add"]
-bzr_cmd.extend(new_file_list)
-bzr_instance = subprocess.Popen(bzr_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-bzr_instance.wait()
+vc.add_and_commit(new_file_list)
 
-bzr_cmd = ["bzr", "commit", "-m", "Updated pandora-build files to version %s" % new_pandora_version]
-bzr_cmd.extend(new_file_list)
-bzr_cmd.append('.quickly')
-bzr_instance = subprocess.Popen(bzr_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-bzr_instance.wait()
 
 # Remove AC_CONFIG_HEADERS and AC_CONFIG_MACRO_DIR from configure.ac
 if project_version < '0.99':

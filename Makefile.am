@@ -146,6 +146,7 @@ nobase_data_DATA= \
 		  quickly/templates/pandora-build/internal/packaging.py \
 		  quickly/templates/pandora-build/internal/pandoramacros.py \
 		  quickly/templates/pandora-build/internal/quicklyutils.py \
+		  quickly/templates/pandora-build/internal/vc.py \
 		  quickly/templates/pandora-build/license.py \
 		  quickly/templates/pandora-build/project_root/AUTHORS \
 		  quickly/templates/pandora-build/project_root/config/pandora-plugin.ini \
