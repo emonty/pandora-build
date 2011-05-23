@@ -17,9 +17,21 @@ AC_DEFUN([_PANDORA_SEARCH_LIBMEMCACHED],[
     [ac_enable_libmemcached="yes"])
 
   AS_IF([test "x$ac_enable_libmemcached" = "xyes"],[
+
+    AS_IF([test "x$pandora_check_libmemcached_version" != "x"],[
+      pandora_need_libmemcached_version=`echo "$pandora_check_libmemcached_version" | perl -nle '/(\d+)\.(\d+)/; printf "%d%0.3d000", $[]1, $[]2 ;'`
+      ],[
+      pandora_need_libmemcached_version=000000
+      ])
+
     AC_LIB_HAVE_LINKFLAGS(memcached,,[
       #include <libmemcached/memcached.h>
+      #include <libmemcached/configure.h>
+      #if !defined(LIBMEMCACHED_VERSION_HEX) || LIBMEMCACHED_VERSION_HEX < 0x]${pandora_need_libmemcached_version}[
+      # error libmemcached too old!
+      #endif
     ],[
+
       memcached_st memc;
       memcached_dump_func *df;
       memcached_lib_version();
@@ -51,56 +63,20 @@ memcached_server_fn callbacks[1];
   AS_IF([test "x$pandora_cv_libmemcached_server_fn" = "xyes"],[
     AC_DEFINE([HAVE_MEMCACHED_SERVER_FN],[1],[If we have the new memcached_server_fn typedef])
   ])
-])
 
-AC_DEFUN([_PANDORA_RECENT_LIBMEMCACHED],[
-
-  AC_CACHE_CHECK([if libmemcached is recent enough],
-    [pandora_cv_recent_libmemcached],[
-    AS_IF([test "x${ac_cv_libmemcached}" = "xno"],[
-      pandora_cv_recent_libmemcached=no
-    ],[
-      AS_IF([test "x$1" != "x"],[
-        pandora_need_libmemcached_version=`echo "$1" | perl -nle '/(\d+)\.(\d+)/; printf "%d%0.3d000", $[]1, $[]2 ;'`
-        AS_IF([test "x${pandora_need_libmemcached_version}" = "x0000000"],[
-          pandora_cv_recent_libmemcached=yes
-        ],[
-          AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
-#include <libmemcached/configure.h>
-
-#if !defined(LIBMEMCACHED_VERSION_HEX) || LIBMEMCACHED_VERSION_HEX < 0x]]${pandora_need_libmemcached_version}[[
-# error libmemcached too old!
-#endif
-            ]],[[]])
-          ],[
-            pandora_cv_recent_libmemcached=yes
-          ],[
-            pandora_cv_recent_libmemcached=no
-          ])
-        ])
-      ],[
-        pandora_cv_recent_libmemcached=yes
-      ])
-    ])
-  ])
-
-  AM_CONDITIONAL(HAVE_LIBMEMCACHED,[test "x${ac_cv_libmemcached}" = "xyes" -a "x${pandora_cv_recent_libmemcached}" = "xyes"])
+  AM_CONDITIONAL(HAVE_LIBMEMCACHED,[test "x${ac_cv_libmemcached}" = "xyes"])
   
 ])
 
 AC_DEFUN([PANDORA_HAVE_LIBMEMCACHED],[
-  AC_REQUIRE([_PANDORA_SEARCH_LIBMEMCACHED])
-  _PANDORA_RECENT_LIBMEMCACHED($1)
+  pandora_check_libmemcached_version=$1
+  _PANDORA_SEARCH_LIBMEMCACHED
 ])
 
 AC_DEFUN([PANDORA_REQUIRE_LIBMEMCACHED],[
   PANDORA_HAVE_LIBMEMCACHED($1)
-  AS_IF([test "x{$pandora_cv_recent_libmemcached}" = "xno"],
-      PANDORA_MSG_ERROR([libmemcached is required for ${PACKAGE}]))
 ])
 
 AC_DEFUN([PANDORA_REQUIRE_LIBMEMCACHEDPROTOCOL],[
   PANDORA_HAVE_LIBMEMCACHED($1)
-  AS_IF([test x$ac_cv_libmemcachedprotocol = xno],
-      PANDORA_MSG_ERROR([libmemcachedprotocol is required for ${PACKAGE}]))
 ])

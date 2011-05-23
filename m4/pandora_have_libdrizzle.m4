@@ -27,6 +27,15 @@ AC_DEFUN([_PANDORA_SEARCH_LIBDRIZZLE],[
     ac_cv_libdrizzle="no"
   ])
   
+  AS_IF([test "${ac_cv_libdrizzle}" = "no" -a "${ac_enable_libdrizzle}" = "yes"],[
+
+    PKG_CHECK_MODULES([LIBDRIZZLE], [libdrizzle-1.0], [
+      ac_cv_libdrizzle=yes
+      LTLIBDRIZZLE=${LIBDRIZZLE_LIBS}
+      LIBDRIZZLE=${LIBDRIZZLE_LIBS}
+    ],[test x = y])
+  ])
+
   AM_CONDITIONAL(HAVE_LIBDRIZZLE, [test "x${ac_cv_libdrizzle}" = "xyes"])
 ])
 
