@@ -72,6 +72,8 @@ AC_DEFUN([PANDORA_BUILDING_FROM_VC],[
       if test "x$PANDORA_GIT_REVID" != "x${PANDORA_VC_REVNO}" ; then
          PANDORA_VC_REVID="${PANDORA_GIT_REVID}"
          PANDORA_VC_BRANCH=`git branch | grep -Ei "\* (.*)" | cut -f2 -d' '`
+         PANDORA_VC_TAG=`git tag --contains HEAD`
+         PANDORA_VC_LATEST_TAG=`git tag | xargs -I@ git log --format=format:"%ci %h @%n" -1 @ | sort | tail -1 | cut -f5 -d' '`
       fi
     fi
 
