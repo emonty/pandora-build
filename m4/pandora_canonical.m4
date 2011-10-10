@@ -4,7 +4,7 @@ dnl gives unlimited permission to copy and/or distribute it,
 dnl with or without modifications, as long as this notice is preserved.
 
 dnl Which version of the canonical setup we're using
-AC_DEFUN([PANDORA_CANONICAL_VERSION],[0.177])
+AC_DEFUN([PANDORA_CANONICAL_VERSION],[0.178])
 
 AC_DEFUN([PANDORA_MSG_ERROR],[
   AS_IF([test "x${pandora_cv_skip_requires}" != "xno"],[
