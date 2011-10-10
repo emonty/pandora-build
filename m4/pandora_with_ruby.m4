@@ -44,16 +44,16 @@ AC_DEFUN([PANDORA_WITH_RUBY], [
 
     ac_save_CFLAGS="$CFLAGS"
     ac_save_CPPFLAGS="$CPPFLAGS"
-    ac_save_LDFLAGS="$LDFLAGS"
+    ac_save_LIBS="$LIBS"
     CFLAGS="$ac_save_CFLAGS $RUBY_INCLUDES"
     CPPFLAGS="$ac_save_CPPFLAGS $RUBY_INCLUDES"
-    LDFLAGS="$ac_save_LDFLAGS $LIBRUBYARG_SHARED"
+    LIBS="$ac_save_LIBS $LIBRUBYARG_SHARED"
     
     AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <ruby.h>]], [[VALUE rb_ac_test = rb_define_module("actest");]])],[with_ruby="yes";AC_MSG_RESULT(found)],[with_ruby="no";AC_MSG_RESULT(missing)])
 
     CPPFLAGS="$ac_save_CPPFLAGS"
     CFLAGS="$ac_save_CFLAGS"
-    LDFLAGS="$ac_save_LDFLAGS"
+    LIBS="$ac_save_LIBS"
   ],[
     # This allows 'make clean' in the ruby directory to work when
     # ruby isn't available
